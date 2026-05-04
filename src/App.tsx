@@ -1,5 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './App.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
@@ -14,17 +18,79 @@ function App() {
     };
 
     const handleWheel = (e: WheelEvent) => {
-      if (e.deltaY !== 0) {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         e.preventDefault();
-        container.scrollLeft += e.deltaY;
+        container.scrollLeft += e.deltaY * 0.8;
+        ScrollTrigger.update();
       }
     };
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ctx = !prefersReducedMotion
+      ? gsap.context(() => {
+          gsap.from('.hero-left', {
+            opacity: 0,
+            x: -72,
+            duration: 1.15,
+            ease: 'power3.out',
+          });
+
+          gsap.from('.hero-badge, .hero-logo-wrapper, .hero-title, .hero-subtitle, .hero-cta', {
+            opacity: 0,
+            y: 34,
+            duration: 0.85,
+            ease: 'power3.out',
+            stagger: 0.08,
+            delay: 0.15,
+          });
+
+          gsap.to('.hero-img', {
+            yPercent: -7,
+            scale: 1.035,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.hero',
+              scroller: container,
+              horizontal: true,
+              start: 'left left',
+              end: 'right left',
+              scrub: true,
+            },
+          });
+
+          gsap.utils.toArray<HTMLElement>('.section, .footer').forEach((panel) => {
+            const revealTargets = panel.querySelectorAll(
+              '.section-header, .bento-card, .preview-card, .footer-brand, .footer-col, .footer-bottom',
+            );
+
+            if (!revealTargets.length) return;
+
+            gsap.from(revealTargets, {
+              opacity: 0,
+              y: 42,
+              duration: 0.9,
+              ease: 'power3.out',
+              stagger: 0.09,
+              scrollTrigger: {
+                trigger: panel,
+                scroller: container,
+                horizontal: true,
+                start: 'left 72%',
+                toggleActions: 'play none none reverse',
+              },
+            });
+          });
+
+          ScrollTrigger.refresh();
+        }, container)
+      : undefined;
+
     container.addEventListener('scroll', handleScroll);
-    container.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('wheel', handleWheel, { passive: false });
     return () => {
       container.removeEventListener('scroll', handleScroll);
-      container.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('wheel', handleWheel);
+      ctx?.revert();
     };
   }, []);
 
@@ -32,29 +98,13 @@ function App() {
     const section = document.getElementById(id);
     const container = containerRef.current;
     if (section && container) {
-      const targetX = section.offsetLeft;
-      const startX = container.scrollLeft;
-      const distance = targetX - startX;
-      const duration = 1500; // Luxurious 1.5s scroll
-      let startTimestamp: number | null = null;
-
-      const step = (timestamp: number) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        
-        // easeInOutQuint for an even smoother, Apple-like feel
-        const ease = progress < 0.5 
-          ? 16 * Math.pow(progress, 5) 
-          : 1 - Math.pow(-2 * progress + 2, 5) / 2;
-          
-        container.scrollLeft = startX + distance * ease;
-        
-        if (progress < 1) {
-          window.requestAnimationFrame(step);
-        }
-      };
-
-      window.requestAnimationFrame(step);
+      gsap.killTweensOf(container);
+      gsap.to(container, {
+        scrollLeft: section.offsetLeft,
+        duration: 1.25,
+        ease: 'power4.inOut',
+        onUpdate: () => ScrollTrigger.update(),
+      });
     }
   };
 
