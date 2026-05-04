@@ -20,8 +20,6 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
   useEffect(() => {
     if (isOpen) {
       setShouldRender(true);
-      const container = document.querySelector('.app-container') as HTMLElement;
-      if (container) container.style.overflow = 'hidden';
       
       const timer = setTimeout(() => {
         if (scrollRef.current) scrollRef.current.scrollTop = 0;
@@ -34,11 +32,9 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
         })
         .to(contentRef.current, {
           opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.5,
-          ease: 'back.out(1.2)',
-        }, '-=0.2');
+          duration: 0.4,
+          ease: 'power2.out',
+        }, '-=0.1');
       }, 10);
       return () => clearTimeout(timer);
     }
@@ -49,16 +45,12 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
   const handleClose = () => {
     const tl = gsap.timeline({
       onComplete: () => {
-        const container = document.querySelector('.app-container') as HTMLElement;
-        if (container) container.style.overflow = 'auto';
         setShouldRender(false);
         onClose();
       }
     });
     tl.to(contentRef.current, {
       opacity: 0,
-      y: 20,
-      scale: 0.95,
       duration: 0.3,
       ease: 'power2.in',
     })
@@ -81,7 +73,7 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
       {/* Modal Content */}
       <div 
         ref={contentRef}
-        className="relative w-full max-w-5xl overflow-hidden rounded-2xl bg-white shadow-2xl opacity-0 translate-y-8 scale-95 transition-all duration-300 md:h-[600px]"
+        className="relative w-full max-w-5xl overflow-hidden rounded-2xl bg-white shadow-2xl opacity-0 transition-opacity duration-300 md:h-[600px]"
       >
         <button 
           onClick={handleClose}
