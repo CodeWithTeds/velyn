@@ -58,3 +58,9 @@ button {
   border: none;
   outline: none;
 }
+
+html, body {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 100vh;
+}

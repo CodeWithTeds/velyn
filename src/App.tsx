@@ -1,28 +1,74 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './App.css';
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(container.scrollLeft > 20);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        container.scrollLeft += e.deltaY;
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      container.removeEventListener('wheel', handleWheel);
+    };
   }, []);
 
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    const container = containerRef.current;
+    if (section && container) {
+      const targetX = section.offsetLeft;
+      const startX = container.scrollLeft;
+      const distance = targetX - startX;
+      const duration = 1500; // Luxurious 1.5s scroll
+      let startTimestamp: number | null = null;
+
+      const step = (timestamp: number) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        
+        // easeInOutQuint for an even smoother, Apple-like feel
+        const ease = progress < 0.5 
+          ? 16 * Math.pow(progress, 5) 
+          : 1 - Math.pow(-2 * progress + 2, 5) / 2;
+          
+        container.scrollLeft = startX + distance * ease;
+        
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+
+      window.requestAnimationFrame(step);
+    }
+  };
+
   return (
-    <div className="app-container">
+    <div className="app-container" ref={containerRef}>
       {/* Navbar */}
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="nav-logo">
           <img src="/images/logo.png" alt="Velyn" className="nav-logo-img" />
         </div>
         <div className="nav-links">
-          <a href="#features">Features</a>
-          <a href="#templates">Templates</a>
-          <a href="#benefits">Benefits</a>
+          <button onClick={() => scrollToSection('features')} className="nav-btn">Features</button>
+          <button onClick={() => scrollToSection('templates')} className="nav-btn">Templates</button>
+          <button onClick={() => scrollToSection('footer')} className="nav-btn">Contact</button>
         </div>
         <button className="btn-primary" style={{ padding: '6px 16px', fontSize: '0.8rem' }}>
           Get Started
@@ -118,7 +164,7 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="footer">
+      <footer id="footer" className="footer">
         <div className="footer-content">
           <div className="footer-brand">
             <h3>Velyn</h3>

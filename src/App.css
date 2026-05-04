@@ -1,8 +1,24 @@
 .app-container {
-  width: 100%;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.app-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.app-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .bg-light {
@@ -46,15 +62,20 @@
   gap: 32px;
 }
 
-.nav-links a {
+.nav-links a, .nav-btn {
   font-size: 0.75rem;
   font-weight: 400;
   color: var(--text-main);
   opacity: 0.8;
   letter-spacing: 0.02em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover, .nav-btn:hover {
   opacity: 1;
   color: var(--primary);
 }
@@ -92,9 +113,13 @@
 
 /* Hero Section */
 .hero {
-  display: flex;
+  flex-shrink: 0;
+  width: 100vw;
   height: 100vh;
+  display: flex;
   align-items: center;
+  scroll-snap-align: start;
+  position: relative;
   /* Add a beautiful Apple-style radial gradient background */
   background: radial-gradient(circle at 30% 50%, rgba(255, 51, 153, 0.08) 0%, rgba(255,255,255,0) 60%),
               radial-gradient(circle at 70% 80%, rgba(0, 0, 0, 0.02) 0%, rgba(255,255,255,0) 50%);
@@ -234,10 +259,16 @@
 
 /* Sections */
 .section {
-  padding: 140px 5%;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+  flex-shrink: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 100px 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  border-right: 1px solid var(--border);
+  background-color: #fff;
 }
 
 .section-header {
@@ -374,8 +405,15 @@
 
 /* Footer */
 .footer {
+  flex-shrink: 0;
+  width: 100vw;
+  height: 100vh;
   background: var(--bg-light);
-  padding: 80px 5% 40px;
+  padding: 100px 8% 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  scroll-snap-align: start;
 }
 
 .footer-content {
@@ -458,10 +496,16 @@
 .hero-cta { animation-delay: 0.3s; }
 
 .statement-section {
-  padding: 180px 5%;
+  flex-shrink: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   background-color: #fff;
-  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  scroll-snap-align: start;
 }
 
 .statement-title {
