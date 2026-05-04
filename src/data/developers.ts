@@ -7,7 +7,7 @@ export type Developer = {
 export const developers: Developer[] = [
   {
     name: 'Prof Alex',
-    role: 'Software engineer | Content Creator',
+    role: 'Software engineer | Team Lead',
     image: '/images/developer/conan.png',
   },
   {
