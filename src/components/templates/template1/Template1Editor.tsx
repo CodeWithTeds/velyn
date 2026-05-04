@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, PointerEvent } from 'react';
+import { EditorCanvas } from '../../editor/EditorCanvas';
+import { EditorToolbar } from '../../editor/EditorToolbar';
+import { InspectorPanel } from '../../editor/InspectorPanel';
+import type { EditorQuickAction, EditorStatusItem } from '../../editor/editorTypes';
 import { EditorSlider } from './EditorSlider';
 import { clamp, defaultImageTransform } from './imageTransform';
 import type { ImageTransform } from './imageTransform';
@@ -52,6 +56,22 @@ export function Template1Editor({
     setImageTransform(defaultImageTransform);
   };
 
+  const centerTransform = () => {
+    setImageTransform((currentTransform) => ({
+      ...currentTransform,
+      x: 0,
+      y: 0,
+      rotate: 0,
+    }));
+  };
+
+  const zoomBy = (amount: number) => {
+    setImageTransform((currentTransform) => ({
+      ...currentTransform,
+      scale: clamp(currentTransform.scale + amount, 60, 240),
+    }));
+  };
+
   const nudgeTransform = (x: number, y: number) => {
     setImageTransform((currentTransform) => ({
       ...currentTransform,
@@ -89,39 +109,67 @@ export function Template1Editor({
     }
   };
 
+  const statusItems: EditorStatusItem[] = [
+    { label: '1080 x 1920' },
+    { label: 'B&W Locked' },
+    { label: 'Text Locked' },
+  ];
+
+  const quickActions: EditorQuickAction[] = [
+    {
+      label: '+',
+      title: 'Zoom in',
+      onClick: () => zoomBy(10),
+    },
+    {
+      label: '-',
+      title: 'Zoom out',
+      onClick: () => zoomBy(-10),
+    },
+    {
+      label: 'C',
+      title: 'Center image',
+      onClick: centerTransform,
+    },
+    {
+      label: 'R',
+      title: 'Reset image',
+      tone: 'danger',
+      onClick: resetTransform,
+    },
+  ];
+
   return (
     <div
-      className={`grid h-full gap-6 bg-slate-100 p-4 md:grid-cols-[minmax(0,1fr)_280px] md:p-6 ${
+      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[minmax(0,1fr)_320px] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${
         fullscreen ? 'min-h-0' : 'max-h-[82vh] min-h-[620px]'
       }`}
     >
-      <div className="flex min-h-0 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-[linear-gradient(45deg,#f8fafc_25%,transparent_25%),linear-gradient(-45deg,#f8fafc_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#f8fafc_75%),linear-gradient(-45deg,transparent_75%,#f8fafc_75%)] bg-[length:24px_24px] bg-[position:0_0,0_12px,12px_-12px,-12px_0] p-6">
-        <div className="flex h-full w-full items-center justify-center rounded-md bg-white p-4 shadow-inner">
-          <Template1Poster
-            imageSrc={uploadedImage ?? defaultImage}
-            imageTransform={imageTransform}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            className={`h-full w-full shadow-2xl ${
-              fullscreen ? 'max-h-[calc(100vh-9rem)] max-w-[486px]' : 'max-h-[760px] max-w-[428px]'
-            } cursor-grab touch-none active:cursor-grabbing`}
-          />
-        </div>
-      </div>
+      <EditorToolbar
+        description="Drag the image, resize with zoom, then tune contrast for a clean TikTok portrait."
+        label="Photo Layer"
+        statusItems={statusItems}
+      />
 
-      <aside className="flex min-h-0 flex-col rounded-lg border border-slate-200 bg-white text-slate-950 shadow-sm">
-        <div className="border-b border-slate-200 p-5">
-          <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">
-            Template 1
-          </span>
-          <h2 className="mt-2 text-2xl font-extrabold tracking-normal">Photo Layer</h2>
-          <p className="mt-3 text-sm leading-6 text-slate-500">
-            Drag the poster to reposition the photo, or use exact layer controls below.
-          </p>
-        </div>
+      <EditorCanvas quickActions={quickActions}>
+        <Template1Poster
+          imageSrc={uploadedImage ?? defaultImage}
+          imageTransform={imageTransform}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          className={`h-full w-full shadow-2xl ${
+            fullscreen ? 'max-h-[calc(100vh-9rem)] max-w-[486px]' : 'max-h-[760px] max-w-[428px]'
+          } cursor-grab touch-none active:cursor-grabbing`}
+        />
+      </EditorCanvas>
 
-        <div className="min-h-0 flex-1 space-y-6 overflow-y-auto p-5">
+      <InspectorPanel
+        description="Drag the poster to reposition the photo, or use exact layer controls below."
+        eyebrow="Template 1"
+        footer="1080 x 1920 px - 9:16 TikTok portrait format"
+        title="Photo Layer"
+      >
           <section className="rounded-md border border-slate-200 bg-slate-50 p-4">
             <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Source</p>
             <p className="mt-2 text-sm text-slate-600">Portrait source, auto converted to B&W.</p>
@@ -234,12 +282,7 @@ export function Template1Editor({
               <div />
             </div>
           </section>
-        </div>
-
-        <div className="border-t border-slate-200 p-5 text-xs leading-5 text-slate-400">
-          1080 x 1920 px - 9:16 TikTok portrait format
-        </div>
-      </aside>
+      </InspectorPanel>
     </div>
   );
 }
