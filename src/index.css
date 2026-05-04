@@ -1,67 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-:root {
-  --primary: #FF3399; /* Pure Pink */
-  --primary-hover: #FF1A80;
-  --bg: #ffffff; 
-  --bg-light: #f5f5f7; /* Apple's signature light gray */
-  --text-main: #1d1d1f; /* Apple's signature text color */
-  --text-muted: #86868b; /* Apple's signature gray text */
-  --border: rgba(0, 0, 0, 0.05);
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --shadow-sm: 0 4px 14px 0 rgba(0,0,0,0.03);
-  --shadow-md: 0 10px 30px 0 rgba(0,0,0,0.06);
-  --shadow-lg: 0 20px 40px 0 rgba(0,0,0,0.1);
-  --radius: 24px;
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --color-primary: #ff3399;
+  --color-primary-hover: #ff1a80;
+  --color-ink: #1d1d1f;
+  --color-muted: #86868b;
+  --color-surface: #f5f5f7;
+  --color-border-soft: rgb(0 0 0 / 0.06);
+  --color-available: #28cd41;
+
+  --shadow-pink: 0 10px 30px rgb(255 51 153 / 0.18);
+  --shadow-lift: 0 18px 42px rgb(0 0 0 / 0.1);
+  --drop-shadow-portrait: 0 40px 60px rgb(255 51 153 / 0.25);
+  --drop-shadow-logo: 0 0 20px rgb(255 51 153 / 0.15);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@utility bg-hero {
+  background:
+    radial-gradient(circle at 30% 50%, rgb(255 51 153 / 0.08) 0%, rgb(255 255 255 / 0) 58%),
+    radial-gradient(circle at 76% 78%, rgb(0 0 0 / 0.035) 0%, rgb(255 255 255 / 0) 46%);
 }
 
-html {
-  scroll-behavior: smooth;
-  font-family: var(--font-sans);
-  background-color: var(--bg);
-  color: var(--text-main);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-body {
-  overflow-x: hidden;
-}
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--text-main);
-}
+  html {
+    @apply scroll-smooth bg-white font-sans text-ink antialiased;
+  }
 
-p {
-  color: var(--text-main);
-  line-height: 1.5;
-}
+  html,
+  body,
+  #root {
+    @apply h-screen overflow-hidden;
+  }
 
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.3s ease;
-}
+  body {
+    @apply m-0;
+  }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  outline: none;
-}
+  button,
+  a {
+    @apply font-sans;
+  }
 
-html, body {
-  overflow-y: hidden;
-  overflow-x: hidden;
-  height: 100vh;
+  button {
+    @apply cursor-pointer border-0 bg-transparent;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
 }
