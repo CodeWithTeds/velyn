@@ -112,8 +112,8 @@ function App() {
     >
       <Navbar scrolled={scrolled} onNavigate={scrollToSection} />
       <HeroSection />
-      <FeaturesSection />
       <MemorySection />
+      <FeaturesSection />
       <TemplatesSection onOpenModal={handleOpenModal} />
       <DevelopersSection />
       <Footer />

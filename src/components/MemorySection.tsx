@@ -47,7 +47,7 @@ export function MemorySection() {
 
   return (
     <section id="memory" className={`${sectionClass} overflow-hidden bg-[#fbfaf7]`}>
-      <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <div className="mx-auto grid w-full max-w-7xl -translate-y-[10%] gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="relative min-h-[560px]">
           <svg
             ref={svgRef}
