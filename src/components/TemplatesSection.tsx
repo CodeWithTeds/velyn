@@ -5,6 +5,18 @@ import {
   sectionTitleClass,
 } from '../constants/sectionStyles';
 
+const mockTemplates = Array.from({ length: 12 }).map((_, i) => {
+  const imgNum = i % 4;
+  const imageSrc = imgNum === 0 ? '/images/test.png' : `/images/test${imgNum}.png`;
+  
+  return {
+    id: i,
+    title: `Template ${i + 1}`,
+    description: 'A minimalist presentation designed for visual storytelling.',
+    image: imageSrc,
+  };
+});
+
 export function TemplatesSection() {
   return (
     <section id="templates" className={sectionClass}>
@@ -15,30 +27,28 @@ export function TemplatesSection() {
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <article className="preview-card overflow-hidden rounded-lg border border-border-soft bg-surface shadow-sm transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lift">
-          <img src="/images/test.png" alt="Gallery template preview" className="h-72 w-full object-cover" />
-          <div className="p-7 text-center">
-            <h3 className="text-2xl font-bold tracking-normal text-ink">The Gallery.</h3>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              A spacious grid-based layout for polished portrait collections.
-            </p>
-          </div>
-        </article>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {mockTemplates.map((template) => (
+          <article key={template.id} className="preview-card overflow-hidden rounded-lg transition-[transform] duration-300 hover:-translate-y-1">
+            <img
+              src={template.image}
+              alt={`${template.title} preview`}
+              className="h-64 w-full object-cover object-top"
+            />
+            <div className="p-6 text-center">
+              <h3 className="text-xl font-bold tracking-normal text-ink">{template.title}.</h3>
+              <p className="mt-2 text-sm leading-6 text-muted">
+                {template.description}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
 
-        <article className="preview-card overflow-hidden rounded-lg border border-border-soft bg-surface shadow-sm transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lift">
-          <img
-            src="/images/test2.png"
-            alt="Editorial template preview"
-            className="h-72 w-full object-cover"
-          />
-          <div className="p-7 text-center">
-            <h3 className="text-2xl font-bold tracking-normal text-ink">The Editorial.</h3>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              A magazine-style presentation designed for visual storytelling.
-            </p>
-          </div>
-        </article>
+      <div className="mt-14 flex justify-center">
+        <button className="text-base font-semibold text-ink transition duration-300 hover:text-primary">
+          View More
+        </button>
       </div>
     </section>
   );
