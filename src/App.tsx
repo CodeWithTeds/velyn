@@ -5,6 +5,7 @@ import { DevelopersSection } from './components/DevelopersSection';
 import { FeaturesSection } from './components/FeaturesSection';
 import { Footer } from './components/Footer';
 import { HeroSection } from './components/HeroSection';
+import { MemorySection } from './components/MemorySection';
 import { Navbar } from './components/Navbar';
 import { TemplatesSection } from './components/TemplatesSection';
 import { TemplateModal } from './components/TemplateModal';
@@ -112,6 +113,7 @@ function App() {
       <Navbar scrolled={scrolled} onNavigate={scrollToSection} />
       <HeroSection />
       <FeaturesSection />
+      <MemorySection />
       <TemplatesSection onOpenModal={handleOpenModal} />
       <DevelopersSection />
       <Footer />
