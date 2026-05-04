@@ -7,12 +7,20 @@ import { Footer } from './components/Footer';
 import { HeroSection } from './components/HeroSection';
 import { Navbar } from './components/Navbar';
 import { TemplatesSection } from './components/TemplatesSection';
+import { TemplateModal } from './components/TemplateModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleOpenModal = (template: any) => {
+    setSelectedTemplate(template);
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     const container = containerRef.current;
@@ -91,9 +99,15 @@ function App() {
       <Navbar scrolled={scrolled} onNavigate={scrollToSection} />
       <HeroSection />
       <FeaturesSection />
-      <TemplatesSection />
+      <TemplatesSection onOpenModal={handleOpenModal} />
       <DevelopersSection />
       <Footer />
+      
+      <TemplateModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        template={selectedTemplate}
+      />
     </div>
   );
 }
