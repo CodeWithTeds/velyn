@@ -8,6 +8,7 @@ import { HeroSection } from './components/HeroSection';
 import { Navbar } from './components/Navbar';
 import { TemplatesSection } from './components/TemplatesSection';
 import { TemplateModal } from './components/TemplateModal';
+import { Template1EditorPage } from './components/templates/template1';
 import type { Template } from './types/template';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,11 +17,18 @@ function App() {
   const [scrolled, setScrolled] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingTemplate, setEditingTemplate] = useState<Template | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleOpenModal = (template: Template) => {
     setSelectedTemplate(template);
     setIsModalOpen(true);
+  };
+
+  const handleEditTemplate = (template: Template) => {
+    setEditingTemplate(template);
+    setIsModalOpen(false);
+    window.scrollTo({ top: 0 });
   };
 
   useEffect(() => {
@@ -92,6 +100,10 @@ function App() {
     }
   };
 
+  if (editingTemplate?.kind === 'portrait-poster') {
+    return <Template1EditorPage onBack={() => setEditingTemplate(null)} />;
+  }
+
   return (
     <div
       ref={containerRef}
@@ -107,6 +119,7 @@ function App() {
       <TemplateModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onEditTemplate={handleEditTemplate}
         template={selectedTemplate}
       />
     </div>

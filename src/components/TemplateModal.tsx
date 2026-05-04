@@ -1,78 +1,37 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
 import type { Template } from '../types/template';
-import { Template1Editor } from './templates/template1';
+import { Template1Poster } from './templates/template1';
 
 type TemplateModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  onEditTemplate: (template: Template) => void;
   template: Template | null;
 };
 
-export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps) {
-  const backdropRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isOpen) {
-      const timer = setTimeout(() => {
-        if (scrollRef.current) scrollRef.current.scrollTop = 0;
-
-        const tl = gsap.timeline();
-        tl.to(backdropRef.current, {
-          opacity: 1,
-          duration: 0.3,
-          ease: 'power2.out',
-        })
-        .to(contentRef.current, {
-          opacity: 1,
-          duration: 0.4,
-          ease: 'power2.out',
-        }, '-=0.1');
-      }, 10);
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen]);
-
+export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: TemplateModalProps) {
   if (!isOpen || !template) return null;
 
-  const handleClose = () => {
-    const tl = gsap.timeline({
-      onComplete: () => {
-        onClose();
-      }
-    });
-    tl.to(contentRef.current, {
-      opacity: 0,
-      duration: 0.3,
-      ease: 'power2.in',
-    })
-    .to(backdropRef.current, {
-      opacity: 0,
-      duration: 0.2,
-      ease: 'power2.in',
-    }, '-=0.1');
+  const handleEdit = () => {
+    onEditTemplate(template);
+    onClose();
   };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
       <div 
-        ref={backdropRef}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0"
-        onClick={handleClose}
+        className="absolute inset-0 bg-slate-950/35 backdrop-blur-sm"
+        onClick={onClose}
       />
       
       {/* Modal Content */}
       <div
-        ref={contentRef}
-        className={`relative w-full overflow-hidden rounded-2xl bg-white opacity-0 shadow-2xl transition-opacity duration-300 ${
-          template.kind === 'portrait-poster' ? 'max-w-6xl md:h-[82vh]' : 'max-w-5xl md:h-[600px]'
+        className={`relative w-full overflow-hidden rounded-2xl bg-white shadow-2xl ${
+          template.kind === 'portrait-poster' ? 'max-w-4xl bg-slate-100 md:h-[86vh]' : 'max-w-5xl md:h-[600px]'
         }`}
       >
         <button 
-          onClick={handleClose}
+          onClick={onClose}
           className="absolute right-4 top-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-ink backdrop-blur-md transition-all hover:bg-ink hover:text-white"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -82,7 +41,22 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
         </button>
 
         {template.kind === 'portrait-poster' ? (
-          <Template1Editor defaultImage={template.image} />
+          <div className="flex h-full flex-col items-center justify-center bg-slate-100 p-5">
+            <div className="flex min-h-0 flex-1 items-center justify-center rounded-lg border border-slate-200 bg-white p-4 shadow-inner">
+              <Template1Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[440px]" />
+            </div>
+            <div className="flex w-full max-w-[440px] items-center justify-between gap-3 pt-4">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Raw Preview
+              </span>
+              <button
+                onClick={handleEdit}
+                className="rounded-md bg-slate-950 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-red-600"
+              >
+                Edit
+              </button>
+            </div>
+          </div>
         ) : (
         <div className="flex h-full flex-col md:flex-row">
           {/* Image Side */}
@@ -96,10 +70,7 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
           
           {/* Info Side */}
           <div className="flex flex-1 flex-col p-8 md:w-2/5">
-            <div 
-              ref={scrollRef}
-              className="flex flex-1 flex-col"
-            >
+            <div className="flex flex-1 flex-col">
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Template Preview</span>
               <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-ink">{template.title}</h2>
               <p className="mt-4 text-sm leading-relaxed text-muted">
