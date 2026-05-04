@@ -1,6 +1,3 @@
-export const navButtonClass =
-  'text-xs font-medium text-ink/70 transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2';
-
 export const sectionClass =
   'section flex h-screen w-screen shrink-0 snap-start flex-col justify-center border-r border-border-soft bg-white px-[8%] py-24';
 
