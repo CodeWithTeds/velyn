@@ -2,13 +2,13 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="hero relative flex h-screen w-screen shrink-0 snap-start items-center overflow-hidden border-r border-border-soft bg-hero pt-14 max-lg:flex-col"
+      className="hero relative flex min-h-screen w-full items-center overflow-hidden border-b border-border-soft bg-hero pt-14 max-lg:flex-col"
     >
       <div className="hero-left flex h-full flex-[1.1] items-center justify-center max-lg:order-2 max-lg:h-[46vh] max-lg:w-full">
         <img
           src="/images/test1.png"
           alt="Velyn portrait"
-          className="hero-img max-h-[95%] max-w-[95%] object-contain drop-shadow-portrait max-lg:max-h-[82%]"
+          className="hero-img max-h-[85vh] max-w-[95%] object-contain drop-shadow-portrait max-lg:max-h-[82%]"
         />
       </div>
 

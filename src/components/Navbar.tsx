@@ -6,10 +6,10 @@ type NavbarProps = {
 export function Navbar({ scrolled, onNavigate }: NavbarProps) {
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between px-[5%] transition duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between border-b px-[5%] transition duration-300 ${
         scrolled
-          ? 'border-b border-border-soft bg-white/75 shadow-sm backdrop-blur-xl'
-          : 'bg-transparent'
+          ? 'border-border-soft bg-white/75 shadow-sm backdrop-blur-xl'
+          : 'border-transparent bg-transparent'
       }`}
     >
       <button onClick={() => onNavigate('home')} className="flex items-center gap-3.5 text-left">

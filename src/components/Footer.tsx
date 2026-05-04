@@ -2,7 +2,7 @@ export function Footer() {
   return (
     <footer
       id="footer"
-      className="footer flex h-screen w-screen shrink-0 snap-start flex-col justify-between bg-surface px-[8%] pb-10 pt-24"
+      className="footer flex w-full flex-col justify-between bg-surface px-[8%] pb-10 pt-24"
     >
       <div className="mx-auto flex w-full max-w-6xl justify-between gap-12 border-b border-border-soft pb-14 max-lg:flex-col">
         <div className="footer-brand">

@@ -19,15 +19,7 @@ function App() {
     if (!container) return;
 
     const handleScroll = () => {
-      setScrolled(container.scrollLeft > 20);
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        e.preventDefault();
-        container.scrollLeft += e.deltaY * 0.22;
-        ScrollTrigger.update();
-      }
+      setScrolled(window.scrollY > 20);
     };
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -64,9 +56,7 @@ function App() {
               stagger: 0.09,
               scrollTrigger: {
                 trigger: panel,
-                scroller: container,
-                horizontal: true,
-                start: 'left 72%',
+                start: 'top 72%',
                 toggleActions: 'play none none reverse',
               },
             });
@@ -76,25 +66,19 @@ function App() {
         }, container)
       : undefined;
 
-    container.addEventListener('scroll', handleScroll);
-    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      container.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScroll);
       ctx?.revert();
     };
   }, []);
 
   const scrollToSection = (id: string) => {
     const section = document.getElementById(id);
-    const container = containerRef.current;
-    if (section && container) {
-      gsap.killTweensOf(container);
-      gsap.to(container, {
-        scrollLeft: section.offsetLeft,
-        duration: 1.25,
-        ease: 'power4.inOut',
-        onUpdate: () => ScrollTrigger.update(),
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop,
+        behavior: 'smooth'
       });
     }
   };
@@ -102,7 +86,7 @@ function App() {
   return (
     <div
       ref={containerRef}
-      className="app-container no-scrollbar flex h-screen w-screen snap-x snap-mandatory flex-row overflow-x-auto overflow-y-hidden scroll-smooth bg-white text-ink antialiased"
+      className="app-container flex min-h-screen w-full flex-col bg-white text-ink antialiased"
     >
       <Navbar scrolled={scrolled} onNavigate={scrollToSection} />
       <HeroSection />

@@ -39,13 +39,13 @@
   }
 
   html {
-    @apply scroll-smooth bg-white font-sans text-ink antialiased;
+    @apply bg-white font-sans text-ink antialiased;
   }
 
   html,
   body,
   #root {
-    @apply h-screen overflow-hidden;
+    /* Removed overflow-hidden and h-screen */
   }
 
   body {
