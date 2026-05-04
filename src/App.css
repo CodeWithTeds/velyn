@@ -32,22 +32,13 @@
 }
 
 .nav-logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--text-main);
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
-.nav-logo::before {
-  content: "";
-  width: 12px;
-  height: 12px;
-  background-color: var(--primary);
-  border-radius: 50%;
-  display: inline-block;
+.nav-logo-img {
+  height: 28px;
+  width: auto;
 }
 
 .nav-links {
@@ -540,11 +531,12 @@
     gap: 40px;
   }
 }
-.hero-icon-wrapper {
+.hero-logo-wrapper {
   margin-bottom: 24px;
-  color: var(--primary);
 }
 
-.lucide-sparkles {
-  filter: drop-shadow(0 0 12px rgba(255, 51, 153, 0.3));
+.hero-logo-img {
+  height: 80px;
+  width: auto;
+  filter: drop-shadow(0 0 20px rgba(255, 51, 153, 0.15));
 }

@@ -16,7 +16,9 @@ function App() {
     <div className="app-container">
       {/* Navbar */}
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-        <div className="nav-logo">Velyn</div>
+        <div className="nav-logo">
+          <img src="/images/logo.png" alt="Velyn" className="nav-logo-img" />
+        </div>
         <div className="nav-links">
           <a href="#features">Features</a>
           <a href="#templates">Templates</a>
@@ -41,8 +43,8 @@ function App() {
             Now available <span className="dot"></span>
           </div>
 
-          <div className="hero-icon-wrapper">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+          <div className="hero-logo-wrapper">
+            <img src="/images/logo.png" alt="Velyn Logo" className="hero-logo-img" />
           </div>
 
           <h1 className="hero-title">Portraits,<br />reimagined.</h1>
