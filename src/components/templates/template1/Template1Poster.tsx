@@ -62,7 +62,7 @@ export function Template1Poster({
       </div>
 
       <h3
-        className={`absolute left-[4%] top-[16%] z-30 max-w-[38%] font-black uppercase leading-[0.86] tracking-normal text-red-600 drop-shadow-[3px_3px_0_rgb(0_0_0_/_0.7)] ${
+        className={`absolute left-[4%] top-[16%] z-30 max-w-[54%] whitespace-nowrap font-black uppercase leading-[0.86] tracking-normal text-red-600 drop-shadow-[3px_3px_0_rgb(0_0_0_/_0.7)] ${
           compact ? 'text-[clamp(1rem,5vw,2rem)]' : 'text-[clamp(1.55rem,4.5vw,3rem)]'
         }`}
       >

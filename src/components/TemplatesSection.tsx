@@ -44,7 +44,7 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
             className="preview-card flex flex-col overflow-hidden rounded-lg transition-[transform] duration-300 hover:-translate-y-1"
           >
             {template.kind === 'portrait-poster' ? (
-              <div className="bg-neutral-950 p-3">
+              <div className="bg-transparent p-0">
                 <Template1Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
               </div>
             ) : (
@@ -54,8 +54,13 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
                 className="aspect-[4/3] w-full object-cover"
               />
             )}
-            <div className="flex flex-1 flex-col p-6 text-center">
-              <h3 className="text-xl font-bold tracking-normal text-ink">{template.title}.</h3>
+            <div className="flex flex-1 flex-col p-6 text-left">
+              {template.kind === 'portrait-poster' && (
+                <span className="mb-3 w-fit rounded-full bg-red-50 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-red-600">
+                  1080 x 1920
+                </span>
+              )}
+              <h3 className="text-xl font-bold tracking-normal text-ink">{template.title}</h3>
               <p className="mt-2 text-sm leading-6 text-muted">
                 {template.description}
               </p>
