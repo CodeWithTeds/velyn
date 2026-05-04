@@ -4,21 +4,27 @@ import {
   sectionSubtitleClass,
   sectionTitleClass,
 } from '../constants/sectionStyles';
+import type { Template } from '../types/template';
+import { Template1Poster, template1 } from './templates/template1';
 
-const mockTemplates = Array.from({ length: 12 }).map((_, i) => {
+const standardTemplates: Template[] = Array.from({ length: 11 }).map((_, i) => {
   const imgNum = ((i + 1) % 3) + 1;
   const imageSrc = `/images/test${imgNum}.png`;
+  const templateNumber = i + 2;
 
   return {
-    id: i,
-    title: `Template ${i + 1}`,
+    id: i + 1,
+    kind: 'standard',
+    title: `Template ${templateNumber}`,
     description: 'A minimalist presentation designed for visual storytelling.',
     image: imageSrc,
   };
 });
 
+const templates: Template[] = [template1, ...standardTemplates];
+
 type TemplatesSectionProps = {
-  onOpenModal: (template: typeof mockTemplates[0]) => void;
+  onOpenModal: (template: Template) => void;
 };
 
 export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
@@ -32,13 +38,22 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {mockTemplates.map((template) => (
-          <article key={template.id} className="preview-card flex flex-col overflow-hidden rounded-lg transition-[transform] duration-300 hover:-translate-y-1">
-            <img
-              src={template.image}
-              alt={`${template.title} preview`}
-              className="aspect-[4/3] w-full object-cover"
-            />
+        {templates.map((template) => (
+          <article
+            key={template.id}
+            className="preview-card flex flex-col overflow-hidden rounded-lg transition-[transform] duration-300 hover:-translate-y-1"
+          >
+            {template.kind === 'portrait-poster' ? (
+              <div className="bg-neutral-950 p-3">
+                <Template1Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+              </div>
+            ) : (
+              <img
+                src={template.image}
+                alt={`${template.title} preview`}
+                className="aspect-[4/3] w-full object-cover"
+              />
+            )}
             <div className="flex flex-1 flex-col p-6 text-center">
               <h3 className="text-xl font-bold tracking-normal text-ink">{template.title}.</h3>
               <p className="mt-2 text-sm leading-6 text-muted">

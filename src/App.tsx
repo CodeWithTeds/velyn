@@ -8,16 +8,17 @@ import { HeroSection } from './components/HeroSection';
 import { Navbar } from './components/Navbar';
 import { TemplatesSection } from './components/TemplatesSection';
 import { TemplateModal } from './components/TemplateModal';
+import type { Template } from './types/template';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleOpenModal = (template: any) => {
+  const handleOpenModal = (template: Template) => {
     setSelectedTemplate(template);
     setIsModalOpen(true);
   };

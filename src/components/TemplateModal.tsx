@@ -1,26 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import type { Template } from '../types/template';
+import { Template1Editor } from './templates/template1';
 
 type TemplateModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  template: {
-    title: string;
-    description: string;
-    image: string;
-  } | null;
+  template: Template | null;
 };
 
 export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps) {
   const backdropRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [shouldRender, setShouldRender] = useState(isOpen);
 
   useEffect(() => {
     if (isOpen) {
-      setShouldRender(true);
-      
       const timer = setTimeout(() => {
         if (scrollRef.current) scrollRef.current.scrollTop = 0;
 
@@ -40,12 +35,11 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
     }
   }, [isOpen]);
 
-  if (!shouldRender || !template) return null;
+  if (!isOpen || !template) return null;
 
   const handleClose = () => {
     const tl = gsap.timeline({
       onComplete: () => {
-        setShouldRender(false);
         onClose();
       }
     });
@@ -71,9 +65,11 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
       />
       
       {/* Modal Content */}
-      <div 
+      <div
         ref={contentRef}
-        className="relative w-full max-w-5xl overflow-hidden rounded-2xl bg-white shadow-2xl opacity-0 transition-opacity duration-300 md:h-[600px]"
+        className={`relative w-full overflow-hidden rounded-2xl bg-white opacity-0 shadow-2xl transition-opacity duration-300 ${
+          template.kind === 'portrait-poster' ? 'max-w-6xl md:h-[82vh]' : 'max-w-5xl md:h-[600px]'
+        }`}
       >
         <button 
           onClick={handleClose}
@@ -85,6 +81,9 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
           </svg>
         </button>
 
+        {template.kind === 'portrait-poster' ? (
+          <Template1Editor defaultImage={template.image} />
+        ) : (
         <div className="flex h-full flex-col md:flex-row">
           {/* Image Side */}
           <div className="h-64 md:h-full md:w-3/5">
@@ -138,6 +137,7 @@ export function TemplateModal({ isOpen, onClose, template }: TemplateModalProps)
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   );
