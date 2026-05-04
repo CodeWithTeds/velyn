@@ -1,22 +1,43 @@
+import type { PointerEventHandler } from 'react';
+import { defaultImageTransform } from './imageTransform';
+import type { ImageTransform } from './imageTransform';
+
 type Template1PosterProps = {
   imageSrc?: string;
+  imageTransform?: ImageTransform;
   compact?: boolean;
   className?: string;
+  onPointerDown?: PointerEventHandler<HTMLDivElement>;
+  onPointerMove?: PointerEventHandler<HTMLDivElement>;
+  onPointerUp?: PointerEventHandler<HTMLDivElement>;
 };
 
 export function Template1Poster({
   imageSrc = '/images/test3.png',
+  imageTransform = defaultImageTransform,
   compact = false,
   className = '',
+  onPointerDown,
+  onPointerMove,
+  onPointerUp,
 }: Template1PosterProps) {
   return (
     <div
-      className={`relative isolate aspect-[2/3] overflow-hidden bg-neutral-950 text-white ${className}`}
+      className={`relative isolate aspect-[9/16] overflow-hidden bg-neutral-950 text-white ${className}`}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
     >
       <img
         src={imageSrc}
         alt="Black and white portrait poster"
-        className="absolute inset-0 z-10 h-full w-full object-cover object-[72%_center] grayscale contrast-125 brightness-90"
+        className="absolute inset-0 z-10 h-full w-full object-cover object-[72%_center]"
+        style={{
+          filter: `grayscale(1) contrast(${imageTransform.contrast}%) brightness(${imageTransform.brightness}%)`,
+          transform: `translate3d(${imageTransform.x}%, ${imageTransform.y}%, 0) scale(${imageTransform.scale / 100}) rotate(${imageTransform.rotate}deg)`,
+          transformOrigin: 'center',
+        }}
+        draggable={false}
       />
 
       <div className="absolute inset-0 z-20 bg-gradient-to-r from-black/70 via-black/20 to-black/5" />
@@ -41,8 +62,8 @@ export function Template1Poster({
       </div>
 
       <h3
-        className={`absolute bottom-[36%] left-[4%] z-30 max-w-[46%] font-black uppercase leading-[0.86] tracking-normal text-red-600 drop-shadow-[3px_3px_0_rgb(0_0_0_/_0.7)] ${
-          compact ? 'text-[clamp(1.4rem,7vw,3rem)]' : 'text-[clamp(2.2rem,6vw,4.5rem)]'
+        className={`absolute left-[4%] top-[16%] z-30 max-w-[38%] font-black uppercase leading-[0.86] tracking-normal text-red-600 drop-shadow-[3px_3px_0_rgb(0_0_0_/_0.7)] ${
+          compact ? 'text-[clamp(1rem,5vw,2rem)]' : 'text-[clamp(1.55rem,4.5vw,3rem)]'
         }`}
       >
         Than the

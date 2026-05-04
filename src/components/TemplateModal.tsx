@@ -43,11 +43,11 @@ export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: Tem
         {template.kind === 'portrait-poster' ? (
           <div className="flex h-full flex-col items-center justify-center bg-slate-100 p-5">
             <div className="flex min-h-0 flex-1 items-center justify-center rounded-lg border border-slate-200 bg-white p-4 shadow-inner">
-              <Template1Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[440px]" />
+              <Template1Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
             </div>
-            <div className="flex w-full max-w-[440px] items-center justify-between gap-3 pt-4">
+            <div className="flex w-full max-w-[405px] items-center justify-between gap-3 pt-4">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Raw Preview
+                1080 x 1920 Preview
               </span>
               <button
                 onClick={handleEdit}

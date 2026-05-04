@@ -16,7 +16,7 @@ export function Template1EditorPage({ onBack }: Template1EditorPageProps) {
         </button>
         <div className="text-center">
           <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-red-500">
-            Template 1
+            Template 1 - 1080 x 1920
           </p>
           <h1 className="text-sm font-extrabold uppercase tracking-widest text-slate-950">
             Photo Editor
