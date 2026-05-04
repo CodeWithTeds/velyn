@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "docs-components": {
+      "source": "reactjs/react.dev",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/docs-components/SKILL.md",
+      "computedHash": "6e63b48a4d90c7ee7410fd64758f80f0cd308cb35529cc83c62dbc6be5a75b17"
+    },
+    "react-expert": {
+      "source": "reactjs/react.dev",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/react-expert/SKILL.md",
+      "computedHash": "e53cc1a286987b7f28ba5cdd29e8ebacdde0d5822d40e938652fec8c47f33efa"
+    }
+  }
+}
