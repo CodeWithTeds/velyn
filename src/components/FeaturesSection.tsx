@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
+import rough from 'roughjs';
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
@@ -22,7 +23,49 @@ export function FeaturesSection() {
   const socialTitleRef = useRef<HTMLParagraphElement>(null);
   const socialDescRef = useRef<HTMLParagraphElement>(null);
 
+  const processCanvasRef = useRef<HTMLCanvasElement>(null);
+  const curationCanvasRef = useRef<HTMLCanvasElement>(null);
+  const layoutsCanvasRef = useRef<HTMLCanvasElement>(null);
+  const socialCanvasRef = useRef<HTMLCanvasElement>(null);
+
   useEffect(() => {
+    const drawCanvas = (canvas: HTMLCanvasElement | null, drawFn: (rc: any) => void) => {
+      if (!canvas) return;
+      const context = canvas.getContext('2d');
+      if (context) context.clearRect(0, 0, canvas.width, canvas.height);
+      const rc = rough.canvas(canvas);
+      drawFn(rc);
+    };
+
+    drawCanvas(processCanvasRef.current, (rc) => {
+      rc.rectangle(10, 10, 80, 100, { fill: 'rgba(255,51,153,0.05)', stroke: '#ff3399', roughness: 2, fillStyle: 'solid' });
+      rc.circle(50, 45, 30, { fill: 'rgba(0,0,0,0.1)', stroke: '#111', roughness: 1.5, fillStyle: 'hachure' });
+      rc.path("M 25 100 Q 50 60 75 100", { stroke: '#111', strokeWidth: 2, roughness: 1.5 });
+    });
+
+    drawCanvas(curationCanvasRef.current, (rc) => {
+      rc.rectangle(10, 10, 80, 100, { fill: 'rgba(0,0,0,0.02)', stroke: '#111', roughness: 2, fillStyle: 'solid' });
+      rc.rectangle(18, 18, 28, 40, { fill: 'rgba(255,51,153,0.1)', stroke: '#ff3399', roughness: 1.5, fillStyle: 'zigzag' });
+      rc.rectangle(54, 18, 28, 24, { fill: 'rgba(0,0,0,0.1)', stroke: '#111', roughness: 1.5, fillStyle: 'solid' });
+      rc.rectangle(54, 50, 28, 52, { fill: 'rgba(255,51,153,0.1)', stroke: '#ff3399', roughness: 1.5, fillStyle: 'hachure' });
+      rc.rectangle(18, 66, 28, 36, { fill: 'rgba(0,0,0,0.1)', stroke: '#111', roughness: 1.5, fillStyle: 'solid' });
+    });
+
+    drawCanvas(layoutsCanvasRef.current, (rc) => {
+      rc.rectangle(20, 10, 60, 100, { fill: 'rgba(0,0,0,0.02)', stroke: '#111', strokeWidth: 2, roughness: 1.5, fillStyle: 'solid' });
+      rc.polygon([[40, 50], [65, 60], [40, 70]], { fill: 'rgba(255,51,153,0.2)', stroke: '#ff3399', fillStyle: 'solid' });
+      rc.line(25, 20, 45, 20, { stroke: '#ff3399', strokeWidth: 2 });
+      rc.line(48, 20, 75, 20, { stroke: '#111', strokeWidth: 2 });
+    });
+
+    drawCanvas(socialCanvasRef.current, (rc) => {
+      rc.circle(30, 60, 16, { fill: 'rgba(255,51,153,0.1)', stroke: '#ff3399', strokeWidth: 2, fillStyle: 'solid' });
+      rc.circle(70, 30, 16, { fill: 'rgba(0,0,0,0.1)', stroke: '#111', strokeWidth: 2, fillStyle: 'solid' });
+      rc.circle(70, 90, 16, { fill: 'rgba(0,0,0,0.1)', stroke: '#111', strokeWidth: 2, fillStyle: 'solid' });
+      rc.line(40, 55, 60, 35, { stroke: '#111', strokeWidth: 2 });
+      rc.line(40, 65, 60, 85, { stroke: '#111', strokeWidth: 2 });
+    });
+
     const ctx = gsap.context(() => {
       // Initialize all texts to be empty for the typing effect
       gsap.set([
@@ -31,6 +74,12 @@ export function FeaturesSection() {
         layoutsTitleRef.current, layoutsDescRef.current,
         socialTitleRef.current, socialDescRef.current
       ], { text: "" });
+
+      // Initialize canvases hidden
+      gsap.set([
+        processCanvasRef.current, curationCanvasRef.current,
+        layoutsCanvasRef.current, socialCanvasRef.current
+      ], { opacity: 0, scale: 0.8 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -58,8 +107,9 @@ export function FeaturesSection() {
         ease: "power1.inOut"
       }, "<"); // start at the same time as zoom
 
-      // 3. Type out the Process text
-      tl.to(processTitleRef.current, { text: "Turn one portrait into a bold poster.", duration: 2, ease: "none" });
+      // 3. Type out the Process text and pop up image
+      tl.to(processCanvasRef.current, { opacity: 1, scale: 1, duration: 1, ease: "back.out(1.5)" });
+      tl.to(processTitleRef.current, { text: "Turn one portrait into a bold poster.", duration: 2, ease: "none" }, "<");
       tl.to(processDescRef.current, { text: "Advanced AI edge detection & stylization", duration: 2, ease: "none" });
 
       tl.to({}, { duration: 1 }); // hold
@@ -71,8 +121,9 @@ export function FeaturesSection() {
         duration: 4
       });
 
-      // 5. Type Layouts text
-      tl.to(layoutsTitleRef.current, { text: "9:16 Vertical Story formats.", duration: 2, ease: "none" });
+      // 5. Type Layouts text and pop up image
+      tl.to(layoutsCanvasRef.current, { opacity: 1, scale: 1, duration: 1, ease: "back.out(1.5)" });
+      tl.to(layoutsTitleRef.current, { text: "9:16 Vertical Story formats.", duration: 2, ease: "none" }, "<");
       tl.to(layoutsDescRef.current, { text: "Optimized for TikTok, Reels, & Stories", duration: 2, ease: "none" });
 
       tl.to({}, { duration: 1 }); // hold
@@ -84,8 +135,9 @@ export function FeaturesSection() {
         duration: 4
       });
 
-      // 7. Type Social text
-      tl.to(socialTitleRef.current, { text: "Ready to share anywhere.", duration: 2, ease: "none" });
+      // 7. Type Social text and pop up image
+      tl.to(socialCanvasRef.current, { opacity: 1, scale: 1, duration: 1, ease: "back.out(1.5)" });
+      tl.to(socialTitleRef.current, { text: "Ready to share anywhere.", duration: 2, ease: "none" }, "<");
       tl.to(socialDescRef.current, { text: "Instant export in high-fidelity formats", duration: 2, ease: "none" });
 
       tl.to({}, { duration: 1 }); // hold
@@ -97,8 +149,9 @@ export function FeaturesSection() {
         duration: 4
       });
 
-      // 9. Type Curation text
-      tl.to(curationTitleRef.current, { text: "Templates made for creators.", duration: 2, ease: "none" });
+      // 9. Type Curation text and pop up image
+      tl.to(curationCanvasRef.current, { opacity: 1, scale: 1, duration: 1, ease: "back.out(1.5)" });
+      tl.to(curationTitleRef.current, { text: "Templates made for creators.", duration: 2, ease: "none" }, "<");
       tl.to(curationDescRef.current, { text: "Hand-picked layouts for maximum impact", duration: 2, ease: "none" });
 
       tl.to({}, { duration: 2 }); // final hold
@@ -132,28 +185,40 @@ export function FeaturesSection() {
           <div className="dim-on-zoom absolute left-[40%] top-[12%] text-[10px] font-black uppercase tracking-[0.3em] text-black/10">Version 1.0</div>
 
           {/* Corner Information */}
-          <div className="absolute left-8 top-12 max-w-[240px] text-left z-30">
-            <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Process</p>
-            <p ref={processTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
-            <p ref={processDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
+          <div className="absolute left-8 top-12 flex items-start gap-4 max-w-[400px] z-30">
+            <div className="text-left w-[240px]">
+              <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Process</p>
+              <p ref={processTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
+              <p ref={processDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
+            </div>
+            <canvas ref={processCanvasRef} width={100} height={120} className="hidden sm:block opacity-60 mt-2" />
           </div>
 
-          <div className="absolute right-8 top-12 max-w-[240px] text-right z-30">
-            <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Curation</p>
-            <p ref={curationTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
-            <p ref={curationDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
+          <div className="absolute right-8 top-12 flex items-start gap-4 max-w-[400px] z-30">
+            <canvas ref={curationCanvasRef} width={100} height={120} className="hidden sm:block opacity-60 mt-2" />
+            <div className="text-right w-[240px]">
+              <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Curation</p>
+              <p ref={curationTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
+              <p ref={curationDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
+            </div>
           </div>
 
-          <div className="absolute left-8 bottom-12 max-w-[240px] text-left z-30">
-            <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Layouts</p>
-            <p ref={layoutsTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
-            <p ref={layoutsDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
+          <div className="absolute left-8 bottom-12 flex items-end gap-4 max-w-[400px] z-30">
+            <div className="text-left w-[240px]">
+              <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Layouts</p>
+              <p ref={layoutsTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
+              <p ref={layoutsDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
+            </div>
+            <canvas ref={layoutsCanvasRef} width={100} height={120} className="hidden sm:block opacity-60 mb-2" />
           </div>
 
-          <div className="absolute right-8 bottom-12 max-w-[240px] text-right z-30">
-            <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Social<span className="text-primary">!</span></p>
-            <p ref={socialTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
-            <p ref={socialDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
+          <div className="absolute right-8 bottom-12 flex items-end gap-4 max-w-[400px] z-30">
+            <canvas ref={socialCanvasRef} width={100} height={120} className="hidden sm:block opacity-60 mb-2" />
+            <div className="text-right w-[240px]">
+              <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Social<span className="text-primary">!</span></p>
+              <p ref={socialTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
+              <p ref={socialDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
+            </div>
           </div>
 
           <div className="dim-on-zoom relative z-20 mx-auto max-w-4xl text-center">
