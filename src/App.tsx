@@ -43,45 +43,45 @@ function App() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const ctx = !prefersReducedMotion
       ? gsap.context(() => {
-          gsap.from('.hero-left', {
+        gsap.from('.hero-left', {
+          opacity: 0,
+          x: -72,
+          duration: 1.15,
+          ease: 'power3.out',
+        });
+
+        gsap.from('.hero-badge, .hero-logo-wrapper, .hero-title, .hero-subtitle, .hero-cta', {
+          opacity: 0,
+          y: 34,
+          duration: 0.85,
+          ease: 'power3.out',
+          stagger: 0.08,
+          delay: 0.15,
+        });
+
+        gsap.utils.toArray<HTMLElement>('.section, .footer').forEach((panel) => {
+          const revealTargets = panel.querySelectorAll(
+            '.section-header, .bento-card, .preview-card, .footer-brand, .footer-col, .footer-bottom',
+          );
+
+          if (!revealTargets.length) return;
+
+          gsap.from(revealTargets, {
             opacity: 0,
-            x: -72,
-            duration: 1.15,
+            y: 42,
+            duration: 0.9,
             ease: 'power3.out',
+            stagger: 0.09,
+            scrollTrigger: {
+              trigger: panel,
+              start: 'top 72%',
+              toggleActions: 'play none none reverse',
+            },
           });
+        });
 
-          gsap.from('.hero-badge, .hero-logo-wrapper, .hero-title, .hero-subtitle, .hero-cta', {
-            opacity: 0,
-            y: 34,
-            duration: 0.85,
-            ease: 'power3.out',
-            stagger: 0.08,
-            delay: 0.15,
-          });
-
-          gsap.utils.toArray<HTMLElement>('.section, .footer').forEach((panel) => {
-            const revealTargets = panel.querySelectorAll(
-              '.section-header, .bento-card, .preview-card, .footer-brand, .footer-col, .footer-bottom',
-            );
-
-            if (!revealTargets.length) return;
-
-            gsap.from(revealTargets, {
-              opacity: 0,
-              y: 42,
-              duration: 0.9,
-              ease: 'power3.out',
-              stagger: 0.09,
-              scrollTrigger: {
-                trigger: panel,
-                start: 'top 72%',
-                toggleActions: 'play none none reverse',
-              },
-            });
-          });
-
-          ScrollTrigger.refresh();
-        }, container)
+        ScrollTrigger.refresh();
+      }, container)
       : undefined;
 
     window.addEventListener('scroll', handleScroll);
@@ -112,12 +112,12 @@ function App() {
     >
       <Navbar scrolled={scrolled} onNavigate={scrollToSection} />
       <HeroSection />
-      <MemorySection />
       <FeaturesSection />
+      <MemorySection />
       <TemplatesSection onOpenModal={handleOpenModal} />
       <DevelopersSection />
       <Footer />
-      
+
       <TemplateModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
