@@ -10,6 +10,7 @@ import { Navbar } from './components/Navbar';
 import { TemplatesSection } from './components/TemplatesSection';
 import { TemplateModal } from './components/TemplateModal';
 import { Template1EditorPage } from './components/templates/template1';
+import { Template2EditorPage } from './components/templates/template2';
 import type { Template } from './types/template';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -102,7 +103,11 @@ function App() {
   };
 
   if (editingTemplate?.kind === 'portrait-poster') {
-    return <Template1EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 0) {
+      return <Template1EditorPage onBack={() => setEditingTemplate(null)} />;
+    } else if (editingTemplate.id === 1) {
+      return <Template2EditorPage onBack={() => setEditingTemplate(null)} />;
+    }
   }
 
   return (
