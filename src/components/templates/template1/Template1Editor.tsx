@@ -3,6 +3,7 @@ import type { ChangeEvent, PointerEvent } from 'react';
 import { EditorCanvas } from '../../editor/EditorCanvas';
 import { EditorToolbar } from '../../editor/EditorToolbar';
 import { InspectorPanel } from '../../editor/InspectorPanel';
+import { DownloadButton } from '../../editor/DownloadButton';
 import type { EditorQuickAction, EditorStatusItem } from '../../editor/editorTypes';
 import { EditorSlider } from './EditorSlider';
 import { clamp, defaultImageTransform } from './imageTransform';
@@ -20,6 +21,7 @@ export function Template1Editor({
 }: Template1EditorProps) {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [imageTransform, setImageTransform] = useState<ImageTransform>(defaultImageTransform);
+  const downloadRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
     originX: number;
     originY: number;
@@ -152,16 +154,16 @@ export function Template1Editor({
       />
 
       <EditorCanvas quickActions={quickActions}>
-        <Template1Poster
-          imageSrc={uploadedImage ?? defaultImage}
-          imageTransform={imageTransform}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          className={`h-full w-full shadow-2xl ${
-            fullscreen ? 'max-h-[calc(100vh-9rem)] max-w-[486px]' : 'max-h-[760px] max-w-[428px]'
-          } cursor-grab touch-none active:cursor-grabbing`}
-        />
+        <div ref={downloadRef} className={`h-full w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)] max-w-[486px]' : 'max-h-[760px] max-w-[428px]'}`}>
+          <Template1Poster
+            imageSrc={uploadedImage ?? defaultImage}
+            imageTransform={imageTransform}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            className="h-full w-full shadow-2xl cursor-grab touch-none active:cursor-grabbing"
+          />
+        </div>
       </EditorCanvas>
 
       <InspectorPanel
@@ -281,6 +283,10 @@ export function Template1Editor({
               </button>
               <div />
             </div>
+          </section>
+
+          <section className="mt-8">
+            <DownloadButton targetRef={downloadRef} fileName="template1-download.png" className="w-full" />
           </section>
       </InspectorPanel>
     </div>
