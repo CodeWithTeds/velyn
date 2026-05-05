@@ -2,7 +2,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="hero relative flex h-[70vh] w-full items-center overflow-hidden border-b border-border-soft bg-hero pt-14 mt-20"
+      className="hero relative flex h-[80vh] w-full items-center overflow-hidden border-b border-border-soft bg-hero pt-14 mt-20"
     >
       <div className="hero-left flex h-full flex-[1.1] items-center justify-center">
         <img

@@ -9,10 +9,10 @@ export function FeaturesSection() {
   const triggerWrapRef = useRef<HTMLElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const zoomContainerRef = useRef<HTMLDivElement>(null);
-  
+
   const processTitleRef = useRef<HTMLParagraphElement>(null);
   const processDescRef = useRef<HTMLParagraphElement>(null);
-  
+
   const curationTitleRef = useRef<HTMLParagraphElement>(null);
   const curationDescRef = useRef<HTMLParagraphElement>(null);
 
@@ -45,8 +45,8 @@ export function FeaturesSection() {
       // 1. Zoom into the top-left corner (Process)
       tl.to(zoomContainerRef.current, {
         scale: 3,
-        xPercent: 100, 
-        yPercent: 100, 
+        xPercent: 100,
+        yPercent: 100,
         ease: "power2.inOut",
         duration: 4
       });
@@ -112,8 +112,8 @@ export function FeaturesSection() {
   return (
     <section ref={triggerWrapRef} id="features" className="section relative w-full bg-[#fbfaf7]">
       <div ref={sectionRef} className="relative min-h-screen w-full overflow-hidden">
-        <div 
-          ref={zoomContainerRef} 
+        <div
+          ref={zoomContainerRef}
           className="relative flex min-h-screen w-full items-center justify-center px-[6%] py-24"
         >
           {/* Side Labels */}
@@ -133,25 +133,25 @@ export function FeaturesSection() {
 
           {/* Corner Information */}
           <div className="absolute left-8 top-12 max-w-[240px] text-left z-30">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-black/30">Process</p>
+            <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Process</p>
             <p ref={processTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
             <p ref={processDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
           </div>
 
           <div className="absolute right-8 top-12 max-w-[240px] text-right z-30">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-black/30">Curation</p>
+            <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Curation</p>
             <p ref={curationTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
             <p ref={curationDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
           </div>
 
           <div className="absolute left-8 bottom-12 max-w-[240px] text-left z-30">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-black/30">Layouts</p>
+            <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Layouts</p>
             <p ref={layoutsTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
             <p ref={layoutsDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
           </div>
 
           <div className="absolute right-8 bottom-12 max-w-[240px] text-right z-30">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-black/30">Social</p>
+            <p className="text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase leading-none tracking-tight text-primary">Social<span className="text-primary">!</span></p>
             <p ref={socialTitleRef} className="mt-2 text-xl font-bold leading-tight text-black sm:text-2xl min-h-[56px]"></p>
             <p ref={socialDescRef} className="mt-2 text-[10px] font-bold uppercase tracking-wider text-black/40 min-h-[30px]"></p>
           </div>
