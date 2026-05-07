@@ -12,6 +12,7 @@ import { TemplateModal } from './components/TemplateModal';
 import { Template1EditorPage } from './components/templates/template1';
 import { Template2EditorPage } from './components/templates/template2';
 import { Template3EditorPage } from './components/templates/template3';
+import { Template4EditorPage } from './components/templates/template4';
 import type { Template } from './types/template';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -110,6 +111,8 @@ function App() {
       return <Template2EditorPage onBack={() => setEditingTemplate(null)} />;
     } else if (editingTemplate.id === 2) {
       return <Template3EditorPage onBack={() => setEditingTemplate(null)} />;
+    } else if (editingTemplate.id === 3) {
+      return <Template4EditorPage onBack={() => setEditingTemplate(null)} />;
     }
   }
 
