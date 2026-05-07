@@ -29,7 +29,10 @@ export function FeaturesSection() {
   const socialSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    const drawSvg = (svg: SVGSVGElement | null, drawFn: (rc: any, svgEl: SVGSVGElement) => void) => {
+    const drawSvg = (
+      svg: SVGSVGElement | null,
+      drawFn: (rc: ReturnType<typeof rough.svg>, svgEl: SVGSVGElement) => void,
+    ) => {
       if (!svg) return;
       svg.innerHTML = '';
       const rc = rough.svg(svg);

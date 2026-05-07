@@ -7,14 +7,15 @@ import {
 import type { Template } from '../types/template';
 import { Template1Poster, template1 } from './templates/template1';
 import { Template2Poster, template2 } from './templates/template2';
+import { Template3Poster, template3 } from './templates/template3';
 
 const standardTemplates: Template[] = Array.from({ length: 10 }).map((_, i) => {
   const imgNum = ((i + 2) % 3) + 1;
   const imageSrc = `/images/test${imgNum}.png`;
-  const templateNumber = i + 3;
+  const templateNumber = i + 4;
 
   return {
-    id: i + 2,
+    id: i + 3,
     kind: 'standard',
     title: `Template ${templateNumber}`,
     description: 'A minimalist presentation designed for visual storytelling.',
@@ -22,7 +23,7 @@ const standardTemplates: Template[] = Array.from({ length: 10 }).map((_, i) => {
   };
 });
 
-const templates: Template[] = [template1, template2, ...standardTemplates];
+const templates: Template[] = [template1, template2, template3, ...standardTemplates];
 
 type TemplatesSectionProps = {
   onOpenModal: (template: Template) => void;
@@ -48,8 +49,10 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
               <div className="bg-transparent p-0">
                 {template.id === 0 ? (
                   <Template1Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : (
+                ) : template.id === 1 ? (
                   <Template2Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                ) : (
+                  <Template3Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
                 )}
               </div>
             ) : (
