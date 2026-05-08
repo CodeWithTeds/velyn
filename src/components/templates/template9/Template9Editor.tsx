@@ -25,6 +25,9 @@ const imageFields: Array<{ description: string; key: ImageKey; label: string }> 
   { key: 'logo', label: 'Logo', description: 'Used in the header and as the faint background mark.' },
 ];
 
+const backgroundSwatches = ['#062c58', '#7f1d1d', '#14532d', '#4c1d95', '#7c2d12', '#111827'];
+const textSwatches = ['#ffffff', '#fff7ed', '#fde047', '#111827', '#f472b6', '#38bdf8'];
+
 const defaultPhotoTransform: PhotoTransform = {
   scale: 100,
   x: 0,
@@ -46,6 +49,8 @@ export function Template9Editor({
   const [name, setName] = useState('HYERI');
   const [title, setTitle] = useState('SECRETARY');
   const [schoolName, setSchoolName] = useState('Falconridge School of Excellence');
+  const [backgroundColor, setBackgroundColor] = useState('#062c58');
+  const [textColor, setTextColor] = useState('#ffffff');
   const [photoTransform, setPhotoTransform] = useState<PhotoTransform>(defaultPhotoTransform);
   const downloadRef = useRef<HTMLDivElement>(null);
   const uploadedUrlsRef = useRef<string[]>([]);
@@ -126,6 +131,7 @@ export function Template9Editor({
     { label: '1080 x 1920' },
     { label: '2 Pictures' },
     { label: '4 Text Fields' },
+    { label: 'Color Controls' },
   ];
 
   const quickActions: EditorQuickAction[] = [
@@ -136,7 +142,7 @@ export function Template9Editor({
 
   return (
     <div
-      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[minmax(0,1fr)_320px] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${
+      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[320px_minmax(0,1fr)] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${
         fullscreen ? 'min-h-0' : 'max-h-[82vh] min-h-[620px]'
       }`}
     >
@@ -146,33 +152,70 @@ export function Template9Editor({
         statusItems={statusItems}
       />
 
-      <EditorCanvas quickActions={quickActions}>
-        <div
-          ref={downloadRef}
-          className={`h-full w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)] max-w-[486px]' : 'max-h-[760px] max-w-[428px]'}`}
-        >
-          <Template9Poster
-            className="h-full w-full shadow-2xl"
-            councilName={councilName}
-            logoSrc={logoSrc}
-            name={name}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            photoTransform={photoTransform}
-            photoSrc={photoSrc}
-            schoolName={schoolName}
-            title={title}
-          />
-        </div>
-      </EditorCanvas>
-
       <InspectorPanel
-        description="This template is locked to two pictures and four editable text values."
+        description="Change the poster background, label text color, images, and editable text."
         eyebrow="Template 9"
         footer="1080 x 1920 px - student council portrait format"
         title="Council Poster"
       >
+        <section className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
+          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Colors</h3>
+
+          <div>
+            <div className="mb-2 flex items-center justify-between gap-3">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Background</span>
+              <input
+                type="color"
+                value={backgroundColor}
+                onChange={(event) => setBackgroundColor(event.target.value)}
+                className="h-8 w-10 cursor-pointer rounded border border-slate-200 bg-white p-1"
+                aria-label="Custom background color"
+              />
+            </div>
+            <div className="grid grid-cols-6 gap-2">
+              {backgroundSwatches.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => setBackgroundColor(color)}
+                  className={`h-8 rounded-full border transition ${
+                    backgroundColor === color ? 'border-slate-950 ring-2 ring-slate-950 ring-offset-2' : 'border-slate-200'
+                  }`}
+                  style={{ backgroundColor: color }}
+                  aria-label={`Use ${color} as background color`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="mb-2 flex items-center justify-between gap-3">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Name & Title Text</span>
+              <input
+                type="color"
+                value={textColor}
+                onChange={(event) => setTextColor(event.target.value)}
+                className="h-8 w-10 cursor-pointer rounded border border-slate-200 bg-white p-1"
+                aria-label="Custom text color"
+              />
+            </div>
+            <div className="grid grid-cols-6 gap-2">
+              {textSwatches.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => setTextColor(color)}
+                  className={`h-8 rounded-full border transition ${
+                    textColor === color ? 'border-slate-950 ring-2 ring-slate-950 ring-offset-2' : 'border-slate-200'
+                  }`}
+                  style={{ backgroundColor: color }}
+                  aria-label={`Use ${color} as text color`}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
           <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Text</h3>
           <label className="block">
@@ -244,6 +287,29 @@ export function Template9Editor({
           <DownloadButton targetRef={downloadRef} fileName="template9-student-council-poster.png" className="w-full" />
         </section>
       </InspectorPanel>
+
+      <EditorCanvas quickActions={quickActions}>
+        <div
+          ref={downloadRef}
+          className={`h-full w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)] max-w-[486px]' : 'max-h-[760px] max-w-[428px]'}`}
+        >
+          <Template9Poster
+            backgroundColor={backgroundColor}
+            className="h-full w-full shadow-2xl"
+            councilName={councilName}
+            logoSrc={logoSrc}
+            name={name}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            photoTransform={photoTransform}
+            photoSrc={photoSrc}
+            schoolName={schoolName}
+            textColor={textColor}
+            title={title}
+          />
+        </div>
+      </EditorCanvas>
     </div>
   );
 }

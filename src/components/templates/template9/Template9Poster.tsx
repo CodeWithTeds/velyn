@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import type { CSSProperties } from 'react';
 import type { PointerEventHandler } from 'react';
 import rough from 'roughjs';
 
@@ -11,6 +12,7 @@ type PhotoTransform = {
 };
 
 type Template9PosterProps = {
+  backgroundColor?: string;
   className?: string;
   compact?: boolean;
   councilName?: string;
@@ -22,6 +24,7 @@ type Template9PosterProps = {
   photoTransform?: PhotoTransform;
   photoSrc?: string;
   schoolName?: string;
+  textColor?: string;
   title?: string;
 };
 
@@ -84,6 +87,7 @@ function drawDoodles(svg: SVGSVGElement) {
 }
 
 export function Template9Poster({
+  backgroundColor = '#062c58',
   className = '',
   compact = false,
   councilName = 'Supreme Student Council',
@@ -95,6 +99,7 @@ export function Template9Poster({
   photoTransform = { scale: 100, x: 0, y: 0 },
   photoSrc = '/images/image copy.png',
   schoolName = 'Falconridge School of Excellence',
+  textColor = '#ffffff',
   title = 'Secretary',
 }: Template9PosterProps) {
   const doodleRef = useRef<SVGSVGElement>(null);
@@ -108,19 +113,31 @@ export function Template9Poster({
   }, []);
 
   return (
-    <div className={`relative isolate aspect-[9/16] overflow-hidden bg-slate-100 text-white ${className}`}>
-      <div className="absolute inset-0 z-0 bg-[#062c58]" />
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_76%_16%,#0d5f9a_0%,transparent_34%),radial-gradient(circle_at_50%_55%,#0a79ad_0%,#073a72_42%,#031d3e_100%)]" />
+    <div
+      className={`relative isolate aspect-[9/16] overflow-hidden bg-slate-100 text-white ${className}`}
+      style={{
+        '--template9-bg': backgroundColor,
+        '--template9-text': textColor,
+      } as CSSProperties}
+    >
+      <div className="absolute inset-0 z-0" style={{ backgroundColor: 'var(--template9-bg)' }} />
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 76% 16%, color-mix(in srgb, var(--template9-bg) 62%, white) 0%, transparent 34%), radial-gradient(circle at 50% 55%, color-mix(in srgb, var(--template9-bg) 70%, white) 0%, var(--template9-bg) 42%, color-mix(in srgb, var(--template9-bg) 72%, black) 100%)',
+        }}
+      />
       <div className="absolute inset-x-[-3%] top-[-2%] z-0 h-[26%] rotate-[-1deg] bg-[#eee9dd] shadow-[0_12px_24px_rgb(0_0_0_/_0.18)] [clip-path:polygon(0_0,100%_0,100%_78%,88%_86%,74%_77%,60%_89%,45%_80%,31%_91%,16%_79%,0_88%)]" />
       <div className="absolute inset-x-[-4%] bottom-[-2%] z-0 h-[21%] rotate-[1deg] bg-[#eee9dd] shadow-[0_-12px_24px_rgb(0_0_0_/_0.18)] [clip-path:polygon(0_18%,13%_8%,27%_20%,43%_6%,58%_22%,73%_10%,88%_21%,100%_9%,100%_100%,0_100%)]" />
       <div className="absolute inset-x-0 top-0 z-0 h-[24%] bg-[radial-gradient(circle,#a79f90_0.8px,transparent_1.3px)] bg-[size:10px_10px] opacity-18" />
       <div className="absolute inset-x-0 bottom-0 z-0 h-[19%] bg-[radial-gradient(circle,#a79f90_0.8px,transparent_1.3px)] bg-[size:10px_10px] opacity-16" />
       <div className="absolute inset-[-8%] z-0 rotate-[-4deg] bg-[linear-gradient(115deg,transparent_0%,rgb(255_255_255_/_0.12)_12%,transparent_24%,rgb(255_255_255_/_0.08)_48%,transparent_63%,rgb(0_0_0_/_0.18)_100%)]" />
-      <div className="absolute left-[-12%] top-[8%] z-0 h-[42%] w-[124%] rotate-[-6deg] bg-[#0c477d] opacity-55 [clip-path:polygon(0_12%,12%_3%,24%_18%,39%_5%,54%_20%,68%_7%,83%_18%,100%_9%,100%_83%,87%_94%,73%_82%,58%_96%,42%_80%,26%_93%,12%_82%,0_91%)]" />
-      <div className="absolute left-[-16%] top-[44%] z-0 h-[40%] w-[130%] rotate-[5deg] bg-[#041d3d] opacity-55 [clip-path:polygon(0_4%,15%_14%,31%_3%,46%_18%,62%_7%,78%_22%,100%_10%,100%_92%,84%_84%,70%_96%,54%_82%,38%_94%,20%_83%,0_96%)]" />
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle,#031b37_1.1px,transparent_1.55px)] bg-[size:12px_12px] opacity-35" />
-      <div className="absolute right-[-14%] top-[-2%] z-0 h-[26%] w-[43%] rotate-[-15deg] rounded-full bg-[radial-gradient(circle,#082c55_1.8px,transparent_2.9px)] bg-[size:12px_12px] opacity-90" />
-      <div className="absolute left-[-14%] bottom-[-2%] z-0 h-[24%] w-[52%] rotate-[10deg] rounded-full bg-[radial-gradient(circle,#7fc8f1_1.4px,transparent_2.5px)] bg-[size:11px_11px] opacity-30" />
+      <div className="absolute left-[-12%] top-[8%] z-0 h-[42%] w-[124%] rotate-[-6deg] opacity-55 [clip-path:polygon(0_12%,12%_3%,24%_18%,39%_5%,54%_20%,68%_7%,83%_18%,100%_9%,100%_83%,87%_94%,73%_82%,58%_96%,42%_80%,26%_93%,12%_82%,0_91%)]" style={{ backgroundColor: 'color-mix(in srgb, var(--template9-bg) 82%, white)' }} />
+      <div className="absolute left-[-16%] top-[44%] z-0 h-[40%] w-[130%] rotate-[5deg] opacity-55 [clip-path:polygon(0_4%,15%_14%,31%_3%,46%_18%,62%_7%,78%_22%,100%_10%,100%_92%,84%_84%,70%_96%,54%_82%,38%_94%,20%_83%,0_96%)]" style={{ backgroundColor: 'color-mix(in srgb, var(--template9-bg) 70%, black)' }} />
+      <div className="absolute inset-0 z-0 bg-[size:12px_12px] opacity-35" style={{ backgroundImage: 'radial-gradient(circle, color-mix(in srgb, var(--template9-bg) 60%, black) 1.1px, transparent 1.55px)' }} />
+      <div className="absolute right-[-14%] top-[-2%] z-0 h-[26%] w-[43%] rotate-[-15deg] rounded-full bg-[size:12px_12px] opacity-90" style={{ backgroundImage: 'radial-gradient(circle, color-mix(in srgb, var(--template9-bg) 66%, black) 1.8px, transparent 2.9px)' }} />
+      <div className="absolute left-[-14%] bottom-[-2%] z-0 h-[24%] w-[52%] rotate-[10deg] rounded-full bg-[size:11px_11px] opacity-30" style={{ backgroundImage: 'radial-gradient(circle, color-mix(in srgb, var(--template9-bg) 45%, white) 1.4px, transparent 2.5px)' }} />
       <svg
         ref={doodleRef}
         aria-hidden="true"
@@ -180,15 +197,28 @@ export function Template9Poster({
       </div>
 
       <section className="absolute left-[7%] right-[7%] top-[55%] z-50">
-        <div className="w-fit max-w-full skew-x-[-10deg] bg-[#052f5d] px-[4%] py-[1.2%] shadow-[0_10px_0_rgb(2_18_38_/_0.35)]">
+        <div
+          className="w-fit max-w-full skew-x-[-10deg] px-[4%] py-[1.2%] shadow-[0_10px_0_rgb(2_18_38_/_0.35)]"
+          style={{ backgroundColor: 'color-mix(in srgb, var(--template9-bg) 82%, black)' }}
+        >
           <h2
             className={`${nameSize} max-w-full overflow-hidden text-ellipsis whitespace-nowrap font-black uppercase italic leading-[0.86] tracking-normal text-white`}
+            style={{ color: 'var(--template9-text)' }}
           >
             {name}
           </h2>
         </div>
-        <div className="mt-[3.2%] w-[66%] bg-[linear-gradient(90deg,#0b2146_0%,#163b80_48%,#071a39_100%)] px-[4%] py-[1.4%] shadow-[0_5px_12px_rgb(0_0_0_/_0.32)]">
-          <p className={`${titleSize} overflow-hidden text-ellipsis whitespace-nowrap font-black uppercase italic leading-none tracking-normal text-white`}>
+        <div
+          className="mt-[3.2%] w-[66%] px-[4%] py-[1.4%] shadow-[0_5px_12px_rgb(0_0_0_/_0.32)]"
+          style={{
+            backgroundImage:
+              'linear-gradient(90deg, color-mix(in srgb, var(--template9-bg) 82%, black) 0%, color-mix(in srgb, var(--template9-bg) 78%, white) 48%, color-mix(in srgb, var(--template9-bg) 84%, black) 100%)',
+          }}
+        >
+          <p
+            className={`${titleSize} overflow-hidden text-ellipsis whitespace-nowrap font-black uppercase italic leading-none tracking-normal text-white`}
+            style={{ color: 'var(--template9-text)' }}
+          >
             {title}
           </p>
         </div>
