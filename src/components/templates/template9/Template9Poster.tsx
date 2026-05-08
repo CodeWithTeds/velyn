@@ -1,4 +1,8 @@
+import { useEffect, useRef } from 'react';
 import type { PointerEventHandler } from 'react';
+import rough from 'roughjs';
+
+type RoughSvg = ReturnType<typeof rough.svg>;
 
 type PhotoTransform = {
   scale: number;
@@ -9,6 +13,7 @@ type PhotoTransform = {
 type Template9PosterProps = {
   className?: string;
   compact?: boolean;
+  councilName?: string;
   logoSrc?: string;
   name?: string;
   onPointerDown?: PointerEventHandler<HTMLDivElement>;
@@ -20,9 +25,68 @@ type Template9PosterProps = {
   title?: string;
 };
 
+function append(svg: SVGSVGElement, node: SVGGElement) {
+  svg.appendChild(node);
+}
+
+function drawSpark(rc: RoughSvg, svg: SVGSVGElement, x: number, y: number, size: number, stroke: string) {
+  append(svg, rc.path(
+    `M ${x} ${y - size} L ${x + size * 0.22} ${y - size * 0.22} L ${x + size} ${y}
+     L ${x + size * 0.22} ${y + size * 0.22} L ${x} ${y + size}
+     L ${x - size * 0.22} ${y + size * 0.22} L ${x - size} ${y}
+     L ${x - size * 0.22} ${y - size * 0.22} Z`,
+    { fill: stroke, fillStyle: 'solid', roughness: 2.4, stroke, strokeWidth: 3 },
+  ));
+}
+
+function drawDoodles(svg: SVGSVGElement) {
+  svg.innerHTML = '';
+  const rc = rough.svg(svg);
+  const white = '#fffdf3';
+  const gold = '#ffd463';
+  const blue = '#8fd3ff';
+
+  append(svg, rc.circle(186, 532, 112, { roughness: 2.9, stroke: white, strokeWidth: 7 }));
+  append(svg, rc.circle(895, 545, 96, { roughness: 2.5, stroke: blue, strokeWidth: 6 }));
+  append(svg, rc.rectangle(782, 1184, 172, 92, { roughness: 2.8, stroke: white, strokeWidth: 6 }));
+  append(svg, rc.path('M 120 785 C 220 715 324 727 392 805', { roughness: 2.7, stroke: white, strokeWidth: 7 }));
+  append(svg, rc.path('M 711 827 C 805 758 907 772 970 858', { roughness: 2.7, stroke: gold, strokeWidth: 7 }));
+  append(svg, rc.path('M 109 1278 C 194 1225 287 1231 347 1292', { roughness: 2.7, stroke: blue, strokeWidth: 6 }));
+  append(svg, rc.path('M 647 1427 C 739 1372 850 1388 930 1456', { roughness: 2.7, stroke: white, strokeWidth: 6 }));
+
+  append(svg, rc.path('M 198 640 L 239 704 L 313 708 L 260 756 L 279 829 L 202 788 L 129 826 L 150 752 L 96 703 L 169 701 Z', {
+    roughness: 2.3,
+    stroke: gold,
+    strokeWidth: 5,
+  }));
+  append(svg, rc.path('M 792 388 L 845 326 L 899 389', { roughness: 2.4, stroke: white, strokeWidth: 6 }));
+  append(svg, rc.line(846, 326, 846, 446, { roughness: 2.2, stroke: white, strokeWidth: 6 }));
+  append(svg, rc.path('M 766 1422 C 759 1346 826 1308 892 1336 C 958 1364 958 1456 892 1488 C 825 1519 764 1491 766 1422', {
+    roughness: 2.8,
+    stroke: blue,
+    strokeWidth: 5,
+  }));
+
+  [
+    [98, 428, 18, white],
+    [348, 543, 14, gold],
+    [953, 705, 18, white],
+    [102, 1046, 13, gold],
+    [911, 1038, 15, blue],
+    [220, 1447, 18, white],
+    [691, 1586, 14, gold],
+    [948, 1650, 16, white],
+  ].forEach(([x, y, size, stroke]) => drawSpark(rc, svg, Number(x), Number(y), Number(size), String(stroke)));
+
+  append(svg, rc.path('M 124 1574 C 204 1532 293 1546 348 1606', { roughness: 2.5, stroke: white, strokeWidth: 7 }));
+  append(svg, rc.line(152, 1654, 325, 1654, { roughness: 2.3, stroke: white, strokeWidth: 6 }));
+  append(svg, rc.line(175, 1695, 292, 1695, { roughness: 2.3, stroke: gold, strokeWidth: 5 }));
+}
+
 export function Template9Poster({
   className = '',
   compact = false,
+  councilName = 'Supreme Student Council',
   logoSrc = '/images/logo.png',
   name = 'HYERI',
   onPointerDown,
@@ -33,19 +97,37 @@ export function Template9Poster({
   schoolName = 'Falconridge School of Excellence',
   title = 'Secretary',
 }: Template9PosterProps) {
-  const nameSize = compact ? 'text-[clamp(1.55rem,8vw,2.85rem)]' : 'text-[clamp(3.05rem,8vw,5.2rem)]';
+  const doodleRef = useRef<SVGSVGElement>(null);
+  const nameSize = compact ? 'text-[clamp(1.05rem,5.6vw,1.95rem)]' : 'text-[clamp(2rem,5.9vw,3.45rem)]';
   const titleSize = compact ? 'text-[clamp(0.76rem,3.5vw,1.15rem)]' : 'text-[clamp(1.35rem,3.8vw,2.15rem)]';
+
+  useEffect(() => {
+    if (doodleRef.current) {
+      drawDoodles(doodleRef.current);
+    }
+  }, []);
 
   return (
     <div className={`relative isolate aspect-[9/16] overflow-hidden bg-slate-100 text-white ${className}`}>
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(180deg,#f5f5f2_0%,#ecebe5_22%,#06315d_22%,#062f5c_77%,#f3f2ec_77%,#e9e8e1_100%)]" />
-      <div className="absolute left-[-8%] top-[22%] z-0 h-[56%] w-[116%] bg-[radial-gradient(circle_at_center,#0d68a2_0%,#063869_44%,#041b39_100%)]" />
-      <div className="absolute inset-x-0 top-[22%] z-0 h-[55%] bg-[radial-gradient(circle,#0b2443_1.1px,transparent_1.4px)] bg-[size:11px_11px] opacity-35" />
-      <div className="absolute right-[-14%] top-[-2%] z-0 h-[26%] w-[43%] rotate-[-15deg] rounded-full bg-[radial-gradient(circle,#052f5d_1.8px,transparent_2.9px)] bg-[size:12px_12px] opacity-95" />
-      <div className="absolute left-[-14%] bottom-[-2%] z-0 h-[24%] w-[52%] rotate-[10deg] rounded-full bg-[radial-gradient(circle,#0a2d55_1.4px,transparent_2.5px)] bg-[size:11px_11px] opacity-45" />
-
-      <div className="absolute left-0 right-0 top-[18%] z-10 h-[8%] bg-slate-100 shadow-[0_10px_12px_rgb(0_0_0_/_0.18)] [clip-path:polygon(0_0,9%_22%,21%_10%,35%_31%,48%_14%,61%_30%,75%_9%,88%_25%,100%_7%,100%_60%,88%_82%,74%_70%,59%_91%,45%_72%,30%_87%,17%_71%,0_91%)]" />
-      <div className="absolute left-0 right-0 bottom-[15%] z-40 h-[12%] bg-slate-100 shadow-[0_-10px_14px_rgb(0_0_0_/_0.16)] [clip-path:polygon(0_22%,12%_7%,25%_26%,38%_9%,54%_32%,67%_12%,81%_31%,100%_11%,100%_100%,0_100%)]" />
+      <div className="absolute inset-0 z-0 bg-[#062c58]" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_76%_16%,#0d5f9a_0%,transparent_34%),radial-gradient(circle_at_50%_55%,#0a79ad_0%,#073a72_42%,#031d3e_100%)]" />
+      <div className="absolute inset-x-[-3%] top-[-2%] z-0 h-[26%] rotate-[-1deg] bg-[#eee9dd] shadow-[0_12px_24px_rgb(0_0_0_/_0.18)] [clip-path:polygon(0_0,100%_0,100%_78%,88%_86%,74%_77%,60%_89%,45%_80%,31%_91%,16%_79%,0_88%)]" />
+      <div className="absolute inset-x-[-4%] bottom-[-2%] z-0 h-[21%] rotate-[1deg] bg-[#eee9dd] shadow-[0_-12px_24px_rgb(0_0_0_/_0.18)] [clip-path:polygon(0_18%,13%_8%,27%_20%,43%_6%,58%_22%,73%_10%,88%_21%,100%_9%,100%_100%,0_100%)]" />
+      <div className="absolute inset-x-0 top-0 z-0 h-[24%] bg-[radial-gradient(circle,#a79f90_0.8px,transparent_1.3px)] bg-[size:10px_10px] opacity-18" />
+      <div className="absolute inset-x-0 bottom-0 z-0 h-[19%] bg-[radial-gradient(circle,#a79f90_0.8px,transparent_1.3px)] bg-[size:10px_10px] opacity-16" />
+      <div className="absolute inset-[-8%] z-0 rotate-[-4deg] bg-[linear-gradient(115deg,transparent_0%,rgb(255_255_255_/_0.12)_12%,transparent_24%,rgb(255_255_255_/_0.08)_48%,transparent_63%,rgb(0_0_0_/_0.18)_100%)]" />
+      <div className="absolute left-[-12%] top-[8%] z-0 h-[42%] w-[124%] rotate-[-6deg] bg-[#0c477d] opacity-55 [clip-path:polygon(0_12%,12%_3%,24%_18%,39%_5%,54%_20%,68%_7%,83%_18%,100%_9%,100%_83%,87%_94%,73%_82%,58%_96%,42%_80%,26%_93%,12%_82%,0_91%)]" />
+      <div className="absolute left-[-16%] top-[44%] z-0 h-[40%] w-[130%] rotate-[5deg] bg-[#041d3d] opacity-55 [clip-path:polygon(0_4%,15%_14%,31%_3%,46%_18%,62%_7%,78%_22%,100%_10%,100%_92%,84%_84%,70%_96%,54%_82%,38%_94%,20%_83%,0_96%)]" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle,#031b37_1.1px,transparent_1.55px)] bg-[size:12px_12px] opacity-35" />
+      <div className="absolute right-[-14%] top-[-2%] z-0 h-[26%] w-[43%] rotate-[-15deg] rounded-full bg-[radial-gradient(circle,#082c55_1.8px,transparent_2.9px)] bg-[size:12px_12px] opacity-90" />
+      <div className="absolute left-[-14%] bottom-[-2%] z-0 h-[24%] w-[52%] rotate-[10deg] rounded-full bg-[radial-gradient(circle,#7fc8f1_1.4px,transparent_2.5px)] bg-[size:11px_11px] opacity-30" />
+      <svg
+        ref={doodleRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-20 h-full w-full opacity-80 mix-blend-screen"
+        preserveAspectRatio="none"
+        viewBox="0 0 1080 1920"
+      />
 
       <header className="absolute left-[5%] top-[4.4%] z-30 flex w-[70%] items-center gap-[3%] text-[#06264a]">
         <img
@@ -56,7 +138,7 @@ export function Template9Poster({
         />
         <div className="min-w-0">
           <p className="truncate text-[clamp(0.55rem,2vw,1.05rem)] font-extrabold italic leading-none tracking-normal">
-            Supreme Student Council
+            {councilName}
           </p>
           <p className="mt-1 truncate text-[clamp(0.42rem,1.4vw,0.72rem)] font-bold italic leading-none">
             {schoolName}

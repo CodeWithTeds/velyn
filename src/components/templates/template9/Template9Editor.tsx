@@ -42,6 +42,7 @@ export function Template9Editor({
 }: Template9EditorProps) {
   const [logoSrc, setLogoSrc] = useState(defaultLogo);
   const [photoSrc, setPhotoSrc] = useState(defaultPhoto);
+  const [councilName, setCouncilName] = useState('Supreme Student Council');
   const [name, setName] = useState('HYERI');
   const [title, setTitle] = useState('SECRETARY');
   const [schoolName, setSchoolName] = useState('Falconridge School of Excellence');
@@ -124,7 +125,7 @@ export function Template9Editor({
   const statusItems: EditorStatusItem[] = [
     { label: '1080 x 1920' },
     { label: '2 Pictures' },
-    { label: '3 Text Fields' },
+    { label: '4 Text Fields' },
   ];
 
   const quickActions: EditorQuickAction[] = [
@@ -140,7 +141,7 @@ export function Template9Editor({
       }`}
     >
       <EditorToolbar
-        description="Upload one student photo and one logo, then edit only the name, title, and school name."
+        description="Upload one student photo and one logo, then edit the council name, student name, title, and school name."
         label="Student Council Poster"
         statusItems={statusItems}
       />
@@ -152,6 +153,7 @@ export function Template9Editor({
         >
           <Template9Poster
             className="h-full w-full shadow-2xl"
+            councilName={councilName}
             logoSrc={logoSrc}
             name={name}
             onPointerDown={handlePointerDown}
@@ -166,13 +168,23 @@ export function Template9Editor({
       </EditorCanvas>
 
       <InspectorPanel
-        description="This template is locked to two pictures and three editable text values."
+        description="This template is locked to two pictures and four editable text values."
         eyebrow="Template 9"
         footer="1080 x 1920 px - student council portrait format"
         title="Council Poster"
       >
         <section className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
           <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Text</h3>
+          <label className="block">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Council Name</span>
+            <input
+              type="text"
+              value={councilName}
+              maxLength={40}
+              onChange={(event) => setCouncilName(event.target.value)}
+              className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-3 text-sm font-extrabold tracking-normal text-slate-950 outline-none transition focus:border-slate-950"
+            />
+          </label>
           <label className="block">
             <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Name</span>
             <input
