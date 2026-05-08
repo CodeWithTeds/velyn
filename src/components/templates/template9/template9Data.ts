@@ -5,5 +5,5 @@ export const template9: Template = {
   kind: 'portrait-poster',
   title: 'Student Council Poster',
   description: 'A student council portrait poster with two pictures and editable name, title, and school name.',
-  image: '/images/prof.png',
+  image: '/images/image copy.png',
 };

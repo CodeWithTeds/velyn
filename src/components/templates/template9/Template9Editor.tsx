@@ -37,7 +37,7 @@ function clamp(value: number, min: number, max: number) {
 
 export function Template9Editor({
   defaultLogo = '/images/logo.png',
-  defaultPhoto = '/images/prof.png',
+  defaultPhoto = '/images/image copy.png',
   fullscreen = false,
 }: Template9EditorProps) {
   const [logoSrc, setLogoSrc] = useState(defaultLogo);

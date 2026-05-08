@@ -93,7 +93,7 @@ export function Template9Poster({
   onPointerMove,
   onPointerUp,
   photoTransform = { scale: 100, x: 0, y: 0 },
-  photoSrc = '/images/prof.png',
+  photoSrc = '/images/image copy.png',
   schoolName = 'Falconridge School of Excellence',
   title = 'Secretary',
 }: Template9PosterProps) {
