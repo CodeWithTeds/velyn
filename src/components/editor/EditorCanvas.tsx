@@ -14,7 +14,7 @@ export function EditorCanvas({ children, quickActions }: EditorCanvasProps) {
         {children}
       </div>
 
-      <QuickActionDock actions={quickActions} />
+      {quickActions.length > 0 && <QuickActionDock actions={quickActions} />}
     </div>
   );
 }

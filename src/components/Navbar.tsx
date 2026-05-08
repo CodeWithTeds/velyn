@@ -9,6 +9,7 @@ type NavbarProps = {
 export function Navbar({ scrolled, onNavigate }: NavbarProps) {
   const [downloads, setDownloads] = useState(1284);
   const [layouts, setLayouts] = useState(42);
+  const formattedDownloads = new Intl.NumberFormat('en-US').format(downloads);
 
   useEffect(() => {
     // Initial counting animation
@@ -55,7 +56,7 @@ export function Navbar({ scrolled, onNavigate }: NavbarProps) {
 
       <div className="hidden items-center gap-6 text-center md:flex">
         <div className="flex flex-col items-center">
-          <span className="text-sm font-bold text-ink">{downloads.toLocaleString()}</span>
+          <span className="text-sm font-bold text-ink">{formattedDownloads}</span>
           <span className="text-[10px] font-semibold uppercase tracking-wider text-muted">Downloads</span>
         </div>
         <div className="h-4 w-[1px] bg-border-soft" />
