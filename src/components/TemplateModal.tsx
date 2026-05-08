@@ -3,6 +3,7 @@ import { Template1Poster } from './templates/template1';
 import { Template2Poster } from './templates/template2';
 import { Template3Poster } from './templates/template3';
 import { Template4Poster } from './templates/template4';
+import { Template5Poster } from './templates/template5';
 
 type TemplateModalProps = {
   isOpen: boolean;
@@ -52,8 +53,10 @@ export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: Tem
                 <Template2Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
               ) : template.id === 2 ? (
                 <Template3Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
-              ) : (
+              ) : template.id === 3 ? (
                 <Template4Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+              ) : (
+                <Template5Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
               )}
             </div>
             <div className="flex w-full max-w-[405px] items-center justify-between gap-3 pt-4">
