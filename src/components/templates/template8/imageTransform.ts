@@ -11,9 +11,9 @@ export const defaultImageTransform: ImageTransform = {
   brightness: 100,
   contrast: 110,
   rotate: 0,
-  scale: 100,
+  scale: 108,
   x: 0,
-  y: 0,
+  y: 2,
 };
 
 export function clamp(value: number, min: number, max: number): number {

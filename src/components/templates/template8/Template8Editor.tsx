@@ -9,19 +9,34 @@ import { EditorSlider } from './EditorSlider';
 import { clamp, defaultImageTransform } from './imageTransform';
 import type { ImageTransform } from './imageTransform';
 import { Template8Poster } from './Template8Poster';
+import type { BirthdayCollageImages } from './birthdayImages';
+import { defaultBirthdayImages } from './birthdayImages';
 
 type Template8EditorProps = {
   defaultImage?: string;
   fullscreen?: boolean;
 };
 
+type ImageSlot = keyof BirthdayCollageImages;
+
+const imageSlots: Array<{ description: string; key: ImageSlot; label: string }> = [
+  { key: 'main', label: 'Color portrait', description: 'Main portrait stays full color.' },
+  { key: 'stripTop', label: 'B&W photo 1', description: 'Top strip photo renders black and white.' },
+  { key: 'stripMiddle', label: 'B&W photo 2', description: 'Middle strip photo renders black and white.' },
+  { key: 'stripBottom', label: 'B&W photo 3', description: 'Bottom strip photo renders black and white.' },
+  { key: 'cakeIcon', label: 'Cake picture 1', description: 'Small cake image near the birthday headline.' },
+  { key: 'cakeMain', label: 'Cake picture 2', description: 'Large cake image on the right side.' },
+];
+
 export function Template8Editor({
   defaultImage = '/images/velyn.png',
   fullscreen = false,
 }: Template8EditorProps) {
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [uploadedImages, setUploadedImages] = useState<Partial<BirthdayCollageImages>>({});
+  const [dateText, setDateText] = useState('24.09');
   const [imageTransform, setImageTransform] = useState<ImageTransform>(defaultImageTransform);
   const downloadRef = useRef<HTMLDivElement>(null);
+  const uploadedUrlsRef = useRef<string[]>([]);
   const dragStateRef = useRef<{
     originX: number;
     originY: number;
@@ -32,19 +47,32 @@ export function Template8Editor({
 
   useEffect(() => {
     return () => {
-      if (uploadedImage) URL.revokeObjectURL(uploadedImage);
+      uploadedUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      uploadedUrlsRef.current = [];
     };
-  }, [uploadedImage]);
+  }, []);
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const posterImages: BirthdayCollageImages = {
+    ...defaultBirthdayImages,
+    main: defaultImage,
+    ...uploadedImages,
+  };
+
+  const handleImageChange = (slot: ImageSlot) => (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     const nextImage = URL.createObjectURL(file);
-    setUploadedImage((currentImage) => {
-      if (currentImage) URL.revokeObjectURL(currentImage);
-      return nextImage;
+    uploadedUrlsRef.current.push(nextImage);
+    setUploadedImages((currentImages) => {
+      const currentImage = currentImages[slot];
+      if (currentImage?.startsWith('blob:')) URL.revokeObjectURL(currentImage);
+      return {
+        ...currentImages,
+        [slot]: nextImage,
+      };
     });
+    event.target.value = '';
   };
 
   const updateTransform = (key: keyof ImageTransform, value: number) => {
@@ -113,8 +141,8 @@ export function Template8Editor({
 
   const statusItems: EditorStatusItem[] = [
     { label: '1080 x 1920' },
-    { label: 'Birthday Card' },
-    { label: 'Glassmorphism' },
+    { label: '6 Uploads' },
+    { label: 'Editable Date' },
   ];
 
   const quickActions: EditorQuickAction[] = [
@@ -126,12 +154,13 @@ export function Template8Editor({
 
   return (
     <div
-      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[minmax(0,1fr)_320px] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${fullscreen ? 'min-h-0' : 'max-h-[82vh] min-h-[620px]'
-        }`}
+      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[minmax(0,1fr)_320px] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${
+        fullscreen ? 'min-h-0' : 'max-h-[82vh] min-h-[620px]'
+      }`}
     >
       <EditorToolbar
-        description="Position the subject within the glassmorphism frame for a vibrant birthday celebration."
-        label="Birthday"
+        description="Upload four birthday photos plus two cake pictures, keep the portrait in color, and edit the bold date text."
+        label="Birthday Collage"
         statusItems={statusItems}
       />
 
@@ -141,7 +170,8 @@ export function Template8Editor({
           className={`h-full w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)] max-w-[486px]' : 'max-h-[760px] max-w-[428px]'}`}
         >
           <Template8Poster
-            imageSrc={uploadedImage ?? defaultImage}
+            dateText={dateText}
+            imageSources={posterImages}
             imageTransform={imageTransform}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
@@ -152,24 +182,45 @@ export function Template8Editor({
       </EditorCanvas>
 
       <InspectorPanel
-        description="Adjust the subject for the Happy Birthday card. Vibrant gradients and glassmorphism are applied automatically."
+        description="The three strip photos are automatically black and white. The large portrait and cake pictures stay in color."
         eyebrow="Template 8"
-        footer="1080 x 1920 px - 9:16 Birthday Poster"
-        title="Happy Birthday"
+        footer="1080 x 1920 px - birthday collage format"
+        title="Birthday Collage"
       >
-        <section className="rounded-md border border-slate-200 bg-slate-50 p-4">
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Subject Upload</p>
-          <p className="mt-2 text-sm text-slate-600">Glassmorphism effects will be applied automatically.</p>
+        <section className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Date Text</p>
+            <p className="mt-2 text-sm text-slate-600">This controls the large date below the birthday headline.</p>
+          </div>
+          <input
+            type="text"
+            value={dateText}
+            maxLength={10}
+            onChange={(event) => setDateText(event.target.value.toUpperCase())}
+            className="w-full rounded-md border border-slate-200 bg-white px-3 py-3 font-mono text-2xl font-black tracking-tight text-slate-950 outline-none transition focus:border-slate-950"
+          />
+        </section>
 
-          <label className="mt-4 inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-slate-950 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-zinc-800">
-            Change picture
-            <input type="file" accept="image/*" className="sr-only" onChange={handleImageChange} />
-          </label>
+        <section className="space-y-3">
+          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Image Uploads</h3>
+          {imageSlots.map((slot) => (
+            <label
+              key={slot.key}
+              className="block cursor-pointer rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-950"
+            >
+              <span className="block text-xs font-bold uppercase tracking-widest text-slate-950">{slot.label}</span>
+              <span className="mt-1 block text-xs leading-5 text-slate-500">{slot.description}</span>
+              <span className="mt-3 inline-flex rounded-md bg-slate-950 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-white">
+                Change picture
+              </span>
+              <input type="file" accept="image/*" className="sr-only" onChange={handleImageChange(slot.key)} />
+            </label>
+          ))}
         </section>
 
         <section className="space-y-5">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Positioning</h3>
+            <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Color Portrait</h3>
             <button
               onClick={resetTransform}
               className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-950"
@@ -184,7 +235,7 @@ export function Template8Editor({
         </section>
 
         <section className="space-y-5">
-          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Visual Processing</h3>
+          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Portrait Tone</h3>
           <EditorSlider label="Brightness" min={50} max={150} value={imageTransform.brightness} suffix="%" onChange={(value) => updateTransform('brightness', value)} />
           <EditorSlider label="Contrast" min={50} max={150} value={imageTransform.contrast} suffix="%" onChange={(value) => updateTransform('contrast', value)} />
         </section>
@@ -205,7 +256,7 @@ export function Template8Editor({
         </section>
 
         <section className="mt-8">
-          <DownloadButton targetRef={downloadRef} fileName="template8-birthday-download.png" className="w-full" />
+          <DownloadButton targetRef={downloadRef} fileName="template8-birthday-collage-download.png" className="w-full" />
         </section>
       </InspectorPanel>
     </div>

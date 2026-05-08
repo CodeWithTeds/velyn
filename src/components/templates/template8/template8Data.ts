@@ -3,7 +3,7 @@ import type { Template } from '../../../types/template';
 export const template8: Template = {
   id: 7,
   kind: 'portrait-poster',
-  title: 'Template 8',
-  description: 'A vibrant, celebratory Happy Birthday layout featuring hand-drawn rough.js doodles and festive gradients.',
+  title: 'Birthday Collage',
+  description: 'A birthday poster with three black-and-white photo strips, one color portrait, and editable date text.',
   image: '/images/velyn.png',
 };
