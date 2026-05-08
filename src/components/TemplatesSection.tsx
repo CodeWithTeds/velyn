@@ -11,14 +11,15 @@ import { Template3Poster, template3 } from './templates/template3';
 import { Template4Poster, template4 } from './templates/template4';
 import { Template5Poster, template5 } from './templates/template5';
 import { Template6Poster, template6 } from './templates/template6';
+import { Template7Poster, template7 } from './templates/template7';
 
 const standardTemplates: Template[] = Array.from({ length: 10 }).map((_, i) => {
   const imgNum = ((i + 2) % 3) + 1;
   const imageSrc = `/images/test${imgNum}.png`;
-  const templateNumber = i + 7;
+  const templateNumber = i + 8;
 
   return {
-    id: i + 6,
+    id: i + 7,
     kind: 'standard',
     title: `Template ${templateNumber}`,
     description: 'A minimalist presentation designed for visual storytelling.',
@@ -26,7 +27,7 @@ const standardTemplates: Template[] = Array.from({ length: 10 }).map((_, i) => {
   };
 });
 
-const templates: Template[] = [template1, template2, template3, template4, template5, template6, ...standardTemplates];
+const templates: Template[] = [template1, template2, template3, template4, template5, template6, template7, ...standardTemplates];
 
 type TemplatesSectionProps = {
   onOpenModal: (template: Template) => void;
@@ -60,9 +61,11 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
                   <Template4Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
                 ) : template.id === 4 ? (
                   <Template5Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : (
+                ) : template.id === 5 ? (
                   <Template6Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                )}
+                ) : template.id === 6 ? (
+                  <Template7Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                ) : null}
               </div>
             ) : (
               <img
