@@ -7,7 +7,11 @@ type Template5EditorPageProps = {
 
 export function Template5EditorPage({ onBack }: Template5EditorPageProps) {
   return (
-    <EditorPageShell onBack={onBack}>
+    <EditorPageShell
+      canvasLabel="Template 5 - 1080 x 1920"
+      onBack={onBack}
+      title="Soft Green Editor"
+    >
       <Template5Editor fullscreen />
     </EditorPageShell>
   );
