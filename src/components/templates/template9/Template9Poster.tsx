@@ -6,6 +6,9 @@ import rough from 'roughjs';
 type RoughSvg = ReturnType<typeof rough.svg>;
 
 type PhotoTransform = {
+  brightness: number;
+  contrast: number;
+  rotate: number;
   scale: number;
   x: number;
   y: number;
@@ -96,7 +99,7 @@ export function Template9Poster({
   onPointerDown,
   onPointerMove,
   onPointerUp,
-  photoTransform = { scale: 100, x: 0, y: 0 },
+  photoTransform = { brightness: 100, contrast: 100, rotate: 0, scale: 100, x: 0, y: 0 },
   photoSrc = '/images/image copy.png',
   schoolName = 'Falconridge School of Excellence',
   textColor = '#ffffff',
@@ -179,7 +182,7 @@ export function Template9Poster({
       />
 
       <div
-        className="absolute inset-x-[5%] bottom-[13%] z-30 h-[72%] cursor-grab touch-none active:cursor-grabbing"
+        className="absolute inset-x-[5%] bottom-[13%] z-30 h-[72%] cursor-grab touch-none overflow-hidden active:cursor-grabbing"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -187,9 +190,10 @@ export function Template9Poster({
         <img
           src={photoSrc}
           alt={`${name} portrait`}
-          className="h-full w-full object-contain object-bottom [filter:drop-shadow(8px_0_0_white)_drop-shadow(-8px_0_0_white)_drop-shadow(0_8px_0_white)_drop-shadow(0_-8px_0_white)_drop-shadow(0_24px_18px_rgb(0_0_0_/_0.28))]"
+          className="h-full w-full object-cover object-center"
           style={{
-            transform: `translate3d(${photoTransform.x}%, ${photoTransform.y}%, 0) scale(${photoTransform.scale / 100})`,
+            filter: `brightness(${photoTransform.brightness}%) contrast(${photoTransform.contrast}%) drop-shadow(8px 0 0 white) drop-shadow(-8px 0 0 white) drop-shadow(0 8px 0 white) drop-shadow(0 -8px 0 white) drop-shadow(0 24px 18px rgb(0 0 0 / 0.28))`,
+            transform: `translate3d(${photoTransform.x}%, ${photoTransform.y}%, 0) scale(${photoTransform.scale / 100}) rotate(${photoTransform.rotate}deg)`,
             transformOrigin: 'bottom center',
           }}
           draggable={false}

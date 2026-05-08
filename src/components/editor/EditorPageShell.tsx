@@ -9,7 +9,7 @@ type EditorPageShellProps = {
 
 export function EditorPageShell({ canvasLabel, children, onBack, title }: EditorPageShellProps) {
   return (
-    <main className="min-h-screen bg-[#f5f5f7] font-sans text-slate-950">
+    <main className="h-dvh overflow-hidden bg-[#f5f5f7] font-sans text-slate-950">
       <header className="fixed inset-x-0 top-0 z-40 flex h-16 items-center justify-between border-b border-black/5 bg-white/80 px-[5%] shadow-sm backdrop-blur-2xl">
         <button onClick={onBack} className="flex items-center gap-3.5 text-left">
           <img src="/images/logo.png" alt="Velyn" className="h-9 w-auto" />
@@ -43,7 +43,7 @@ export function EditorPageShell({ canvasLabel, children, onBack, title }: Editor
         </div>
       </header>
 
-      <div className="h-screen pt-16">{children}</div>
+      <div className="h-dvh pt-16">{children}</div>
     </main>
   );
 }

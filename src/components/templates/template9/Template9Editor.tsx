@@ -5,6 +5,7 @@ import { EditorCanvas } from '../../editor/EditorCanvas';
 import { EditorToolbar } from '../../editor/EditorToolbar';
 import { InspectorPanel } from '../../editor/InspectorPanel';
 import type { EditorQuickAction, EditorStatusItem } from '../../editor/editorTypes';
+import { EditorSlider } from '../../editor/EditorSlider';
 import { Template9Poster } from './Template9Poster';
 
 type Template9EditorProps = {
@@ -15,6 +16,9 @@ type Template9EditorProps = {
 
 type ImageKey = 'logo' | 'photo';
 type PhotoTransform = {
+  brightness: number;
+  contrast: number;
+  rotate: number;
   scale: number;
   x: number;
   y: number;
@@ -29,6 +33,9 @@ const backgroundSwatches = ['#062c58', '#7f1d1d', '#14532d', '#4c1d95', '#7c2d12
 const textSwatches = ['#ffffff', '#fff7ed', '#fde047', '#111827', '#f472b6', '#38bdf8'];
 
 const defaultPhotoTransform: PhotoTransform = {
+  brightness: 100,
+  contrast: 100,
+  rotate: 0,
   scale: 100,
   x: 0,
   y: 0,
@@ -82,6 +89,7 @@ export function Template9Editor({
     } else {
       if (photoSrc.startsWith('blob:')) URL.revokeObjectURL(photoSrc);
       setPhotoSrc(imageUrl);
+      setPhotoTransform(defaultPhotoTransform);
     }
 
     event.target.value = '';
@@ -91,10 +99,25 @@ export function Template9Editor({
     setPhotoTransform(defaultPhotoTransform);
   };
 
+  const updatePhotoTransform = (key: keyof PhotoTransform, value: number) => {
+    setPhotoTransform((currentTransform) => ({
+      ...currentTransform,
+      [key]: value,
+    }));
+  };
+
   const zoomPhoto = (amount: number) => {
     setPhotoTransform((currentTransform) => ({
       ...currentTransform,
       scale: clamp(currentTransform.scale + amount, 70, 150),
+    }));
+  };
+
+  const nudgePhoto = (x: number, y: number) => {
+    setPhotoTransform((currentTransform) => ({
+      ...currentTransform,
+      x: clamp(currentTransform.x + x, -32, 32),
+      y: clamp(currentTransform.y + y, -26, 26),
     }));
   };
 
@@ -142,7 +165,7 @@ export function Template9Editor({
 
   return (
     <div
-      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[320px_minmax(0,1fr)] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${
+      className={`grid h-full gap-4 overflow-hidden bg-[#f5f5f7] p-4 md:grid-cols-[320px_minmax(0,1fr)] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${
         fullscreen ? 'min-h-0' : 'max-h-[82vh] min-h-[620px]'
       }`}
     >
@@ -151,6 +174,29 @@ export function Template9Editor({
         label="Student Council Poster"
         statusItems={statusItems}
       />
+
+      <EditorCanvas quickActions={quickActions}>
+        <div
+          ref={downloadRef}
+          className={`aspect-[9/16] h-full w-auto max-w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)]' : 'max-h-[760px]'}`}
+        >
+          <Template9Poster
+            backgroundColor={backgroundColor}
+            className="h-full w-full shadow-2xl"
+            councilName={councilName}
+            logoSrc={logoSrc}
+            name={name}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            photoTransform={photoTransform}
+            photoSrc={photoSrc}
+            schoolName={schoolName}
+            textColor={textColor}
+            title={title}
+          />
+        </div>
+      </EditorCanvas>
 
       <InspectorPanel
         description="Change the poster background, label text color, images, and editable text."
@@ -277,6 +323,43 @@ export function Template9Editor({
           ))}
         </section>
 
+        <section className="space-y-5">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Transform</h3>
+            <button
+              onClick={resetPhoto}
+              className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-950"
+            >
+              Reset
+            </button>
+          </div>
+          <EditorSlider label="Scale" min={70} max={150} value={photoTransform.scale} suffix="%" onChange={(value) => updatePhotoTransform('scale', value)} />
+          <EditorSlider label="X Axis" min={-32} max={32} value={photoTransform.x} onChange={(value) => updatePhotoTransform('x', value)} />
+          <EditorSlider label="Y Axis" min={-26} max={26} value={photoTransform.y} onChange={(value) => updatePhotoTransform('y', value)} />
+          <EditorSlider label="Rotation" min={-20} max={20} value={photoTransform.rotate} suffix="deg" onChange={(value) => updatePhotoTransform('rotate', value)} />
+        </section>
+
+        <section className="space-y-5">
+          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Tone</h3>
+          <EditorSlider label="Brightness" min={70} max={140} value={photoTransform.brightness} suffix="%" onChange={(value) => updatePhotoTransform('brightness', value)} />
+          <EditorSlider label="Contrast" min={70} max={150} value={photoTransform.contrast} suffix="%" onChange={(value) => updatePhotoTransform('contrast', value)} />
+        </section>
+
+        <section>
+          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Nudge</h3>
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            <div />
+            <button onClick={() => nudgePhoto(0, -3)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Up</button>
+            <div />
+            <button onClick={() => nudgePhoto(-3, 0)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Left</button>
+            <button onClick={resetPhoto} className="rounded-md border border-slate-200 py-2 text-xs font-bold uppercase hover:border-slate-950">Fit</button>
+            <button onClick={() => nudgePhoto(3, 0)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Right</button>
+            <div />
+            <button onClick={() => nudgePhoto(0, 3)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Down</button>
+            <div />
+          </div>
+        </section>
+
         <section className="mt-8">
           <button
             onClick={resetPhoto}
@@ -287,29 +370,6 @@ export function Template9Editor({
           <DownloadButton targetRef={downloadRef} fileName="template9-student-council-poster.png" className="w-full" />
         </section>
       </InspectorPanel>
-
-      <EditorCanvas quickActions={quickActions}>
-        <div
-          ref={downloadRef}
-          className={`h-full w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)] max-w-[486px]' : 'max-h-[760px] max-w-[428px]'}`}
-        >
-          <Template9Poster
-            backgroundColor={backgroundColor}
-            className="h-full w-full shadow-2xl"
-            councilName={councilName}
-            logoSrc={logoSrc}
-            name={name}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            photoTransform={photoTransform}
-            photoSrc={photoSrc}
-            schoolName={schoolName}
-            textColor={textColor}
-            title={title}
-          />
-        </div>
-      </EditorCanvas>
     </div>
   );
 }

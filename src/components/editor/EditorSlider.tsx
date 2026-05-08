@@ -2,23 +2,23 @@ import type { ChangeEvent } from 'react';
 
 type EditorSliderProps = {
   label: string;
-  value: number;
-  min: number;
   max: number;
+  min: number;
   onChange: (value: number) => void;
   suffix?: string;
+  value: number;
 };
 
 export function EditorSlider({
   label,
-  value,
-  min,
   max,
+  min,
   onChange,
   suffix = '',
+  value,
 }: EditorSliderProps) {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange(Number(e.target.value));
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange(Number(event.target.value));
   };
 
   return (

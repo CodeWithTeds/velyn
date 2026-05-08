@@ -16,7 +16,7 @@ export function InspectorPanel({
   title,
 }: InspectorPanelProps) {
   return (
-    <aside className="flex min-h-0 flex-col rounded-[28px] border border-black/5 bg-white/85 text-slate-950 shadow-[0_18px_45px_rgb(15_23_42_/_0.08)] backdrop-blur-2xl">
+    <aside className="flex min-h-0 flex-col rounded-[28px] border border-black/5 bg-white/85 text-slate-950 shadow-[0_18px_45px_rgb(15_23_42_/_0.08)] backdrop-blur-2xl md:col-start-1 md:row-start-2">
       <div className="border-b border-black/5 p-5">
         <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-red-600">
           {eyebrow}

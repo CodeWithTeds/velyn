@@ -5,7 +5,7 @@ import { EditorToolbar } from '../../editor/EditorToolbar';
 import { InspectorPanel } from '../../editor/InspectorPanel';
 import { DownloadButton } from '../../editor/DownloadButton';
 import type { EditorQuickAction, EditorStatusItem } from '../../editor/editorTypes';
-import { EditorSlider } from './EditorSlider';
+import { EditorSlider } from '../../editor/EditorSlider';
 import { clamp, defaultImageTransform } from './imageTransform';
 import type { ImageTransform } from './imageTransform';
 import { Template2Poster } from './Template2Poster';
@@ -126,7 +126,7 @@ export function Template2Editor({
 
   return (
     <div
-      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[minmax(0,1fr)_320px] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${
+      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[320px_minmax(0,1fr)] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${
         fullscreen ? 'min-h-0' : 'max-h-[82vh] min-h-[620px]'
       }`}
     >
@@ -137,7 +137,7 @@ export function Template2Editor({
       />
 
       <EditorCanvas quickActions={quickActions}>
-        <div ref={downloadRef} className={`h-full w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)] max-w-[486px]' : 'max-h-[760px] max-w-[428px]'}`}>
+        <div ref={downloadRef} className={`aspect-[9/16] h-full w-auto max-w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)]' : 'max-h-[760px]'}`}>
           <Template2Poster
             imageSrc={uploadedImage ?? defaultImage}
             imageTransform={imageTransform}
