@@ -43,9 +43,8 @@
   }
 
   html,
-  body,
-  #root {
-    /* Removed overflow-hidden and h-screen */
+  body {
+    min-height: 100%;
   }
 
   body {
