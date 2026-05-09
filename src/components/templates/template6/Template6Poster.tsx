@@ -39,7 +39,7 @@ export function Template6Poster({
           <img
             src={imageSrc}
             alt="Main subject"
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-contain"
             style={{
               filter: `contrast(${imageTransform.contrast}%) brightness(${imageTransform.brightness}%) saturate(0.9)`,
               transform: `translate3d(${imageTransform.x}%, ${imageTransform.y}%, 0) scale(${imageTransform.scale / 100}) rotate(${imageTransform.rotate}deg)`,
