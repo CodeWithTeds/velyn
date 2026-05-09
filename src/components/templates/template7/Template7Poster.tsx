@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+import type { CSSProperties } from 'react';
 import type { PointerEventHandler } from 'react';
 import type { ImageTransform } from './imageTransform';
 import { defaultImageTransform } from './imageTransform';
@@ -10,119 +12,112 @@ type Template7PosterProps = {
   onPointerDown?: PointerEventHandler<HTMLDivElement>;
   onPointerMove?: PointerEventHandler<HTMLDivElement>;
   onPointerUp?: PointerEventHandler<HTMLDivElement>;
+  date?: string;
+  university?: string;
+  scriptText?: string;
+  mainText?: string;
+  keyword?: string;
+  archiveName?: string;
 };
 
 export function Template7Poster({
-  imageSrc = '/images/velyn.png',
-  imageTransform = defaultImageTransform,
+  imageSrc = '/images/developer/image.png',
+  imageTransform = { ...defaultImageTransform, scale: 120, y: 10 },
   compact = false,
   className = '',
   onPointerDown,
   onPointerMove,
   onPointerUp,
+  date = '09 MAY 2026',
+  university = 'DESIGN FACULTY\nARTS UNIVERSITY\nVELYN DIGITAL STUDIO',
+  scriptText = 'I think',
+  mainText = 'WE HAVE OUR OWN',
+  keyword = 'TIMELINE.',
+  archiveName = 'Archive Velyn Studio',
 }: Template7PosterProps) {
-  // Set box dimensions
-  const boxWidth = compact ? 70 : 80;
-  const boxHeight = compact ? 12 : 15;
-  const boxTop = 32;
+
+  useEffect(() => {
+    // Load Typography
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Satisfy&display=swap';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }, []);
 
   return (
     <div
-      className={`relative isolate aspect-[9/16] overflow-hidden bg-zinc-950 text-white ${className}`}
+      className={`relative isolate aspect-[9/16] overflow-hidden bg-[#ededed] text-slate-900 font-sans ${className}`}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
     >
-      {/* Sharp base image */}
-      <img
-        src={imageSrc}
-        alt="Sharp Subject"
-        className="absolute inset-0 z-0 h-full w-full object-cover"
-        style={{
-          filter: `contrast(${imageTransform.contrast}%) brightness(${imageTransform.brightness}%) grayscale(0.2) saturate(1.2)`,
-          transform: `translate3d(${imageTransform.x}%, ${imageTransform.y}%, 0) scale(${imageTransform.scale / 100}) rotate(${imageTransform.rotate}deg)`,
-          transformOrigin: 'center center',
-        }}
-        draggable={false}
-      />
+      {/* Background Huge Letters */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none select-none overflow-hidden opacity-30">
+        <span className="text-[600px] font-black text-slate-100 tracking-tighter leading-none -translate-x-[15%]">
+          S
+        </span>
+        <span className="text-[600px] font-black text-slate-100 tracking-tighter leading-none translate-x-[15%]">
+          T
+        </span>
+      </div>
 
-      {/* Blurred overlay image with mask hole */}
-      <div
-        className="absolute inset-0 z-10 pointer-events-none overflow-hidden"
-        style={{
-          clipPath: `polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%, 0% 0%, ${50 - boxWidth / 2}% ${boxTop - boxHeight / 2}%, ${50 + boxWidth / 2}% ${boxTop - boxHeight / 2}%, ${50 + boxWidth / 2}% ${boxTop + boxHeight / 2}%, ${50 - boxWidth / 2}% ${boxTop + boxHeight / 2}%, ${50 - boxWidth / 2}% ${boxTop - boxHeight / 2}%)`
-        }}
-      >
+      {/* Main Image Layer - Studio Portrait Style */}
+      <div className={`absolute inset-0 z-10 cursor-grab touch-none active:cursor-grabbing flex items-center justify-center ${compact ? 'p-[20%]' : 'p-[10%]'}`}>
         <img
           src={imageSrc}
-          alt="Blurred Subject"
-          className="absolute inset-0 h-full w-full object-cover"
+          alt="Subject"
+          className="max-h-full max-w-full object-contain"
           style={{
-            filter: `blur(12px) contrast(90%) brightness(80%) grayscale(0.3)`,
+            filter: `grayscale(1) contrast(${imageTransform.contrast + 20}%) brightness(${imageTransform.brightness}%)`,
             transform: `translate3d(${imageTransform.x}%, ${imageTransform.y}%, 0) scale(${imageTransform.scale / 100}) rotate(${imageTransform.rotate}deg)`,
             transformOrigin: 'center center',
-            opacity: 0.9,
           }}
           draggable={false}
         />
-        {/* Grain texture on the blurred part */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
       </div>
 
-      {/* Selection box UI */}
-      <div
-        className="absolute left-1/2 z-20 pointer-events-none"
-        style={{
-          top: `${boxTop}%`,
-          width: `${boxWidth}%`,
-          height: `${boxHeight}%`,
-          transform: `translate(-50%, -50%)`, // ✅ single transform — centers both axes correctly
-        }}
-      >
-        {/* Main border */}
-        <div className="relative h-full w-full border border-white/40">
-          {/* Focus corner marks — inset from border */}
-          <div className="absolute left-2 top-2 h-4 w-4 border-l border-t border-white" />
-          <div className="absolute right-2 top-2 h-4 w-4 border-r border-t border-white" />
-          <div className="absolute left-2 bottom-2 h-4 w-4 border-l border-b border-white" />
-          <div className="absolute right-2 bottom-2 h-4 w-4 border-r border-b border-white" />
+      {/* Top Left Header */}
+      <div className={`absolute z-20 pointer-events-none flex flex-col gap-2 ${compact ? 'left-[4%] top-[3%]' : 'left-[12%] top-[5%]'}`}>
+        <div className="bg-slate-900 px-2 py-0.5 rounded-[2px] w-fit">
+          <span className={`font-bold text-white uppercase ${compact ? 'text-[6px]' : 'text-[10px]'}`}>
+            {date}
+          </span>
+        </div>
+        <div className={`flex flex-col font-bold leading-tight uppercase text-slate-950 ${compact ? 'text-[5px]' : 'text-[9px]'}`}>
+          {university.split('\n').map((line, i) => (
+            <span key={i}>{line}</span>
+          ))}
         </div>
       </div>
 
-      {/* Typography and content */}
-
-      {/* Top header */}
-      <div className="absolute left-8 top-12 z-30">
-        <h2 className={`font-black tracking-tight ${compact ? 'text-2xl' : 'text-5xl'}`}>
-          Pro<span className="font-light italic opacity-80">file</span>
-        </h2>
-      </div>
-
-      {/* Sidebar text */}
-      <div className={`absolute right-8 top-[45%] z-30 max-w-[120px] text-right font-medium uppercase leading-tight tracking-widest opacity-80 ${compact ? 'text-[5px]' : 'text-[9px]'}`}>
-        This is the<br />first member of<br />the velyn studio
-      </div>
-
-      {/* Bottom identity */}
-      <div className="absolute bottom-16 left-8 z-30 flex flex-col gap-1">
-        <span className={`font-bold tracking-widest opacity-60 ${compact ? 'text-[6px]' : 'text-[10px]'}`}>
-          VOCAL - RAP
+      {/* Bottom Right Content Section */}
+      {/* FIX: changed right-[15%] → right-[8%] and added pl-6 (margin-left) on the inner wrapper */}
+      <div className="absolute right-[8%] bottom-[22%] z-20 pointer-events-none flex flex-col items-start gap-1 pl-6">
+        <span
+          className={`text-[#f97316] drop-shadow-sm ${compact ? 'text-[18px]' : 'text-[45px]'}`}
+          style={{ fontFamily: "'Satisfy', cursive" }}
+        >
+          {scriptText}
         </span>
-        <h1 className={`font-black uppercase leading-none tracking-tighter ${compact ? 'text-4xl' : 'text-7xl lg:text-8xl'}`}>
-          VELYN
-        </h1>
-        <div className={`mt-2 max-w-[200px] font-medium uppercase leading-relaxed tracking-wider opacity-60 ${compact ? 'text-[5px]' : 'text-[8px]'}`}>
-          The 1st member of<br />velyn studio<br />cover team
+        <div className={`flex flex-col font-black uppercase leading-[0.85] tracking-tighter text-white drop-shadow-md ${compact ? 'text-[22px]' : 'text-[54px]'}`}>
+          {mainText.split('\n').map((line, i) => (
+            <span key={i}>{line}</span>
+          ))}
         </div>
+        <span className={`font-black uppercase text-[#f97316] leading-none tracking-tighter drop-shadow-sm ${compact ? 'text-[22px]' : 'text-[54px]'}`}>
+          {keyword}
+        </span>
       </div>
 
-      {/* Footer detail */}
-      <div className="absolute bottom-6 left-1/2 z-30 -translate-x-1/2 text-[6px] font-bold uppercase tracking-[0.4em] opacity-40">
-        Design by Velyn
+      {/* Vertical Archive Text */}
+      <div className="absolute right-[4%] bottom-[18%] z-20 pointer-events-none -rotate-90 origin-bottom-right">
+        <span className={`font-medium text-slate-950 italic drop-shadow-[0_1.2px_1.2px_rgba(255,255,255,0.8)] ${compact ? 'text-[8px]' : 'text-[15px]'}`}>
+          {archiveName}
+        </span>
       </div>
 
       {/* Subtle vignettes */}
-      <div className="absolute inset-0 z-40 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
+      <div className="absolute inset-0 z-30 pointer-events-none bg-gradient-to-t from-white/20 via-transparent to-transparent" />
     </div>
   );
 }

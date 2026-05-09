@@ -16,11 +16,24 @@ type Template7EditorProps = {
 };
 
 export function Template7Editor({
-  defaultImage = '/images/velyn.png',
+  defaultImage = '/images/developer/image.png',
   fullscreen = false,
 }: Template7EditorProps) {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [imageTransform, setImageTransform] = useState<ImageTransform>(defaultImageTransform);
+  const [imageTransform, setImageTransform] = useState<ImageTransform>({
+    ...defaultImageTransform,
+    scale: 120,
+    y: 10,
+  });
+  
+  // State for new typographic fields (Updated to English defaults)
+  const [date, setDate] = useState('09 MAY 2026');
+  const [university, setUniversity] = useState('DESIGN FACULTY\nARTS UNIVERSITY\nVELYN DIGITAL STUDIO');
+  const [scriptText, setScriptText] = useState('I think');
+  const [mainText, setMainText] = useState('WE HAVE OUR OWN');
+  const [keyword, setKeyword] = useState('TIMELINE.');
+  const [archiveName, setArchiveName] = useState('Archive Velyn Studio');
+  
   const downloadRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
     originX: number;
@@ -113,8 +126,8 @@ export function Template7Editor({
 
   const statusItems: EditorStatusItem[] = [
     { label: '1080 x 1920' },
-    { label: 'Magazine Cover' },
-    { label: 'Halftone Texture' },
+    { label: 'Portfolio' },
+    { label: 'Clean Design' },
   ];
 
   const quickActions: EditorQuickAction[] = [
@@ -126,12 +139,13 @@ export function Template7Editor({
 
   return (
     <div
-      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[320px_minmax(0,1fr)] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${fullscreen ? 'min-h-0' : 'max-h-[82vh] min-h-[620px]'
-        }`}
+      className={`grid h-full gap-4 bg-[#f5f5f7] p-4 md:grid-cols-[320px_minmax(0,1fr)] md:grid-rows-[auto_minmax(0,1fr)] md:p-6 ${
+        fullscreen ? 'min-h-0' : 'max-h-[82vh] min-h-[620px]'
+      }`}
     >
       <EditorToolbar
-        description="Position the subject within the focus box. The magazine typography will frame the composition."
-        label="Magazine"
+        description="Position your subject within the academic frame. Edit the typography to match your portfolio identity."
+        label="Academic Portfolio"
         statusItems={statusItems}
       />
 
@@ -143,6 +157,12 @@ export function Template7Editor({
           <Template7Poster
             imageSrc={uploadedImage ?? defaultImage}
             imageTransform={imageTransform}
+            date={date}
+            university={university}
+            scriptText={scriptText}
+            mainText={mainText}
+            keyword={keyword}
+            archiveName={archiveName}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
@@ -152,15 +172,77 @@ export function Template7Editor({
       </EditorCanvas>
 
       <InspectorPanel
-        description="Adjust the subject for the Velyn Magazine cover. Grayscale and halftone effects are applied automatically."
+        description="Modify the headers, main message, and subject positioning for this modern academic layout."
         eyebrow="Template 7"
-        footer="1080 x 1920 px - 9:16 Magazine Poster"
-        title="Velyn Magazine"
+        footer="1080 x 1920 px - 9:16 Academic Poster"
+        title="Portfolio Identity"
       >
+        <section className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
+          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Typography</h3>
+          
+          <label className="block">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Event Date</span>
+            <input
+              type="text"
+              value={date}
+              onChange={(e) => setDate(e.target.value.toUpperCase())}
+              className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-bold outline-none focus:border-slate-950"
+            />
+          </label>
+
+          <label className="block">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Institution / Info</span>
+            <textarea
+              value={university}
+              onChange={(e) => setUniversity(e.target.value.toUpperCase())}
+              rows={3}
+              className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-bold outline-none focus:border-slate-950 resize-none"
+            />
+          </label>
+
+          <label className="block">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Script Text (Intro)</span>
+            <input
+              type="text"
+              value={scriptText}
+              onChange={(e) => setScriptText(e.target.value)}
+              className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-bold outline-none focus:border-slate-950"
+            />
+          </label>
+
+          <label className="block">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Main Message</span>
+            <textarea
+              value={mainText}
+              onChange={(e) => setMainText(e.target.value.toUpperCase())}
+              rows={2}
+              className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-black outline-none focus:border-slate-950 resize-none tracking-tighter"
+            />
+          </label>
+
+          <label className="block">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Keyword (Orange)</span>
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value.toUpperCase())}
+              className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-black outline-none focus:border-slate-950 text-[#f97316] tracking-tighter"
+            />
+          </label>
+
+          <label className="block">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Archive Credit (Edge)</span>
+            <input
+              type="text"
+              value={archiveName}
+              onChange={(e) => setArchiveName(e.target.value)}
+              className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-bold outline-none focus:border-slate-950"
+            />
+          </label>
+        </section>
+        
         <section className="rounded-md border border-slate-200 bg-slate-50 p-4">
           <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Subject Upload</p>
-          <p className="mt-2 text-sm text-slate-600">Monochromatic processing will be applied automatically.</p>
-
           <label className="mt-4 inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-slate-950 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-zinc-800">
             Change picture
             <input type="file" accept="image/*" className="sr-only" onChange={handleImageChange} />
@@ -183,29 +265,8 @@ export function Template7Editor({
           <EditorSlider label="Rotation" min={-45} max={45} value={imageTransform.rotate} suffix="deg" onChange={(value) => updateTransform('rotate', value)} />
         </section>
 
-        <section className="space-y-5">
-          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Tone</h3>
-          <EditorSlider label="Brightness" min={50} max={150} value={imageTransform.brightness} suffix="%" onChange={(value) => updateTransform('brightness', value)} />
-          <EditorSlider label="Contrast" min={50} max={150} value={imageTransform.contrast} suffix="%" onChange={(value) => updateTransform('contrast', value)} />
-        </section>
-
-        <section>
-          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Nudge</h3>
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            <div />
-            <button onClick={() => nudgeTransform(0, -5)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Up</button>
-            <div />
-            <button onClick={() => nudgeTransform(-5, 0)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Left</button>
-            <button onClick={resetTransform} className="rounded-md border border-slate-200 py-2 text-xs font-bold uppercase hover:border-slate-950">Fit</button>
-            <button onClick={() => nudgeTransform(5, 0)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Right</button>
-            <div />
-            <button onClick={() => nudgeTransform(0, 5)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Down</button>
-            <div />
-          </div>
-        </section>
-
         <section className="mt-8">
-          <DownloadButton targetRef={downloadRef} fileName="template7-archive-download.png" className="w-full" />
+          <DownloadButton targetRef={downloadRef} fileName="template7-portfolio.png" className="w-full" />
         </section>
       </InspectorPanel>
     </div>
