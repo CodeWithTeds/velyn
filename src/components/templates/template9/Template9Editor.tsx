@@ -36,7 +36,7 @@ const defaultPhotoTransform: PhotoTransform = {
   brightness: 100,
   contrast: 100,
   rotate: 0,
-  scale: 100,
+  scale: 96,
   x: 0,
   y: 0,
 };

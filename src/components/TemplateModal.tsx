@@ -50,28 +50,28 @@ export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: Tem
 
         {template.kind === 'portrait-poster' ? (
           <div className="flex h-full flex-col items-center justify-center bg-slate-100 p-5">
-            <div className="flex min-h-0 flex-1 items-center justify-center rounded-lg border border-slate-200 bg-white p-4 shadow-inner">
+            <div className="flex min-h-0 flex-1 items-center justify-center rounded-lg border border-slate-200 bg-white p-2 shadow-inner sm:p-4">
               {template.id === 0 ? (
-                <Template1Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+                <Template1Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 1 ? (
-                <Template2Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+                <Template2Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 2 ? (
-                <Template3Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+                <Template3Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 3 ? (
-                <Template4Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+                <Template4Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 4 ? (
-                <Template5Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+                <Template5Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 5 ? (
-                <Template6Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+                <Template6Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 6 ? (
-                <Template7Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+                <Template7Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 7 ? (
-                <Template8Poster imageSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+                <Template8Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 8 ? (
-                <Template9Poster photoSrc={template.image} className="h-full max-h-[72vh] w-full max-w-[405px]" />
+                <Template9Poster photoSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : null}
             </div>
-            <div className="flex w-full max-w-[405px] items-center justify-between gap-3 pt-4">
+            <div className="flex w-full items-center justify-between gap-3 pt-4">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                 1080 x 1920 Preview
               </span>

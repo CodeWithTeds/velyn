@@ -99,15 +99,15 @@ export function Template9Poster({
   onPointerDown,
   onPointerMove,
   onPointerUp,
-  photoTransform = { brightness: 100, contrast: 100, rotate: 0, scale: 100, x: 0, y: 0 },
+  photoTransform = { brightness: 100, contrast: 100, rotate: 0, scale: 96, x: 0, y: 0 },
   photoSrc = '/images/image copy.png',
   schoolName = 'Falconridge School of Excellence',
   textColor = '#ffffff',
   title = 'Secretary',
 }: Template9PosterProps) {
   const doodleRef = useRef<SVGSVGElement>(null);
-  const nameSize = compact ? 'text-[clamp(1.05rem,5.6vw,1.95rem)]' : 'text-[clamp(2rem,5.9vw,3.45rem)]';
-  const titleSize = compact ? 'text-[clamp(0.76rem,3.5vw,1.15rem)]' : 'text-[clamp(1.35rem,3.8vw,2.15rem)]';
+  const nameSize = compact ? 'text-[clamp(0.9rem,4.5vw,1.6rem)]' : 'text-[clamp(1.8rem,5.5vw,3.2rem)]';
+  const titleSize = compact ? 'text-[clamp(0.65rem,3vw,0.95rem)]' : 'text-[clamp(1.1rem,3.5vw,1.8rem)]';
 
   useEffect(() => {
     if (doodleRef.current) {
@@ -182,7 +182,7 @@ export function Template9Poster({
       />
 
       <div
-        className="absolute inset-x-[5%] bottom-[13%] z-30 h-[72%] cursor-grab touch-none overflow-hidden active:cursor-grabbing"
+        className="absolute inset-x-0 bottom-[13%] z-30 h-[72%] cursor-grab touch-none active:cursor-grabbing"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -202,31 +202,32 @@ export function Template9Poster({
 
       <section className="absolute left-[7%] right-[7%] top-[55%] z-50">
         <div
-          className="w-fit max-w-full skew-x-[-10deg] px-[4%] py-[1.2%] shadow-[0_10px_0_rgb(2_18_38_/_0.35)]"
+          className="w-fit max-w-[95%] skew-x-[-10deg] px-[5%] py-[1.5%] shadow-[0_10px_0_rgb(2_18_38_/_0.35)]"
           style={{ backgroundColor: 'color-mix(in srgb, var(--template9-bg) 82%, black)' }}
         >
           <h2
-            className={`${nameSize} max-w-full overflow-hidden text-ellipsis whitespace-nowrap font-black uppercase italic leading-[0.86] tracking-normal text-white`}
+            className={`${nameSize} max-w-full overflow-hidden text-ellipsis whitespace-nowrap pr-2 font-black uppercase italic leading-[1.1] tracking-normal text-white`}
             style={{ color: 'var(--template9-text)' }}
           >
             {name}
           </h2>
         </div>
         <div
-          className="mt-[3.2%] w-[66%] px-[4%] py-[1.4%] shadow-[0_5px_12px_rgb(0_0_0_/_0.32)]"
+          className="mt-[3.2%] w-fit max-w-[85%] px-[5%] py-[1.8%] shadow-[0_5px_12px_rgb(0_0_0_/_0.32)]"
           style={{
             backgroundImage:
               'linear-gradient(90deg, color-mix(in srgb, var(--template9-bg) 82%, black) 0%, color-mix(in srgb, var(--template9-bg) 78%, white) 48%, color-mix(in srgb, var(--template9-bg) 84%, black) 100%)',
           }}
         >
           <p
-            className={`${titleSize} overflow-hidden text-ellipsis whitespace-nowrap font-black uppercase italic leading-none tracking-normal text-white`}
+            className={`${titleSize} overflow-hidden text-ellipsis whitespace-nowrap pr-2 font-black uppercase italic leading-[1.1] tracking-normal text-white`}
             style={{ color: 'var(--template9-text)' }}
           >
             {title}
           </p>
         </div>
       </section>
+
     </div>
   );
 }
