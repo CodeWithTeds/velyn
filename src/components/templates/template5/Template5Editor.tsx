@@ -21,6 +21,12 @@ export function Template5Editor({
 }: Template5EditorProps) {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [imageTransform, setImageTransform] = useState<ImageTransform>(defaultImageTransform);
+  const [title, setTitle] = useState('FOCUS');
+  const [subtitle, setSubtitle] = useState('ON ME');
+  const [author, setAuthor] = useState('ARTIST');
+  const [quote, setQuote] = useState('I CANNOT FOCUS ON ANYTHING BUT YOU');
+  const [brand, setBrand] = useState('CORTIS');
+  
   const downloadRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
     originX: number;
@@ -113,8 +119,8 @@ export function Template5Editor({
 
   const statusItems: EditorStatusItem[] = [
     { label: '1080 x 1920' },
-    { label: 'Cinematic Portrait' },
-    { label: 'Soft Green Tone' },
+    { label: 'Editorial' },
+    { label: 'Focus Effect' },
   ];
 
   const quickActions: EditorQuickAction[] = [
@@ -131,8 +137,8 @@ export function Template5Editor({
       }`}
     >
       <EditorToolbar
-        description="Reposition your self-portrait and tune the cinematic green tones."
-        label="Self Portrait"
+        description="Reposition your photo and edit the editorial text elements."
+        label="Focus On Me"
         statusItems={statusItems}
       />
 
@@ -144,6 +150,11 @@ export function Template5Editor({
           <Template5Poster
             imageSrc={uploadedImage ?? defaultImage}
             imageTransform={imageTransform}
+            title={title}
+            subtitle={subtitle}
+            author={author}
+            quote={quote}
+            brand={brand}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
@@ -153,16 +164,66 @@ export function Template5Editor({
       </EditorCanvas>
 
       <InspectorPanel
-        description="Reposition the photo to align with the typographic elements."
+        description="Edit the typography and reposition the subject to align with the focus frame."
         eyebrow="Template 5"
-        footer="1080 x 1920 px - 9:16 Cinematic Portrait"
-        title="Soft Green"
+        footer="1080 x 1920 px - 9:16 Editorial Layout"
+        title="Focus On Me"
       >
+        <section className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
+          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Typography</h3>
+          
+          <div className="space-y-3">
+             <label className="block">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Main Title</span>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value.toUpperCase())}
+                className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-bold outline-none focus:border-slate-950"
+              />
+            </label>
+            <label className="block">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Bottom Title</span>
+              <input
+                type="text"
+                value={subtitle}
+                onChange={(e) => setSubtitle(e.target.value.toUpperCase())}
+                className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-bold outline-none focus:border-slate-950"
+              />
+            </label>
+            <label className="block">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Subject Name</span>
+              <input
+                type="text"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value.toUpperCase())}
+                className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-bold outline-none focus:border-slate-950"
+              />
+            </label>
+             <label className="block">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Quote</span>
+              <textarea
+                value={quote}
+                onChange={(e) => setQuote(e.target.value.toUpperCase())}
+                rows={2}
+                className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-bold outline-none focus:border-slate-950 resize-none"
+              />
+            </label>
+            <label className="block">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Brand Name</span>
+              <input
+                type="text"
+                value={brand}
+                onChange={(e) => setBrand(e.target.value.toUpperCase())}
+                className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-bold outline-none focus:border-slate-950"
+              />
+            </label>
+          </div>
+        </section>
+
         <section className="rounded-md border border-slate-200 bg-slate-50 p-4">
           <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Image Source</p>
-          <p className="mt-2 text-sm text-slate-600">The photo will be sepia-toned and layered with cinematic grain.</p>
-
-          <label className="mt-4 inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-slate-950 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-emerald-800">
+          <label className="mt-4 inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-slate-950 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-slate-800">
             Change picture
             <input type="file" accept="image/*" className="sr-only" onChange={handleImageChange} />
           </label>
@@ -184,29 +245,8 @@ export function Template5Editor({
           <EditorSlider label="Rotate" min={-45} max={45} value={imageTransform.rotate} suffix="deg" onChange={(value) => updateTransform('rotate', value)} />
         </section>
 
-        <section className="space-y-5">
-          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Tone</h3>
-          <EditorSlider label="Brightness" min={50} max={150} value={imageTransform.brightness} suffix="%" onChange={(value) => updateTransform('brightness', value)} />
-          <EditorSlider label="Contrast" min={50} max={150} value={imageTransform.contrast} suffix="%" onChange={(value) => updateTransform('contrast', value)} />
-        </section>
-
-        <section>
-          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Nudge</h3>
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            <div />
-            <button onClick={() => nudgeTransform(0, -5)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Up</button>
-            <div />
-            <button onClick={() => nudgeTransform(-5, 0)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Left</button>
-            <button onClick={resetTransform} className="rounded-md border border-slate-200 py-2 text-xs font-bold uppercase hover:border-slate-950">Fit</button>
-            <button onClick={() => nudgeTransform(5, 0)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Right</button>
-            <div />
-            <button onClick={() => nudgeTransform(0, 5)} className="rounded-md border border-slate-200 py-2 text-sm font-bold hover:border-slate-950">Down</button>
-            <div />
-          </div>
-        </section>
-
         <section className="mt-8">
-          <DownloadButton targetRef={downloadRef} fileName="template5-self-portrait-download.png" className="w-full" />
+          <DownloadButton targetRef={downloadRef} fileName="template5-focus-on-me.png" className="w-full" />
         </section>
       </InspectorPanel>
     </div>
