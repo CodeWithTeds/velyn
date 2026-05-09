@@ -8,6 +8,7 @@ import { Template6Poster } from './templates/template6';
 import { Template7Poster } from './templates/template7';
 import { Template8Poster } from './templates/template8';
 import { Template9Poster } from './templates/template9';
+import { Template10Poster } from './templates/template10';
 
 type TemplateModalProps = {
   isOpen: boolean;
@@ -69,6 +70,8 @@ export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: Tem
                 <Template8Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 8 ? (
                 <Template9Poster photoSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
+              ) : template.id === 10 ? (
+                <Template10Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : null}
             </div>
             <div className="flex w-full items-center justify-between gap-3 pt-4">

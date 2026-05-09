@@ -20,6 +20,7 @@ import { Template6EditorPage } from './components/templates/template6';
 import { Template7EditorPage } from './components/templates/template7';
 import { Template8EditorPage } from './components/templates/template8';
 import { Template9EditorPage } from './components/templates/template9';
+import { Template10EditorPage } from './components/templates/template10';
 import type { Template } from './types/template';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -130,6 +131,8 @@ function App() {
       return <Template8EditorPage onBack={() => setEditingTemplate(null)} />;
     } else if (editingTemplate.id === 8) {
       return <Template9EditorPage onBack={() => setEditingTemplate(null)} />;
+    } else if (editingTemplate.id === 10) {
+      return <Template10EditorPage onBack={() => setEditingTemplate(null)} />;
     }
   }
 

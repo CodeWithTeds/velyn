@@ -16,6 +16,7 @@ import { Template6Poster, template6 } from './templates/template6';
 import { Template7Poster, template7 } from './templates/template7';
 import { Template8Poster, template8 } from './templates/template8';
 import { Template9Poster, template9 } from './templates/template9';
+import { Template10Poster, template10 } from './templates/template10';
 
 type BusinessTemplateSample = {
   accent: string;
@@ -45,6 +46,7 @@ const personalTemplates: Template[] = [
   template5,
   template6,
   template7,
+  template10,
   personalStandardTemplate,
 ];
 
@@ -339,6 +341,8 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
                   <Template8Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
                 ) : template.id === 8 ? (
                   <Template9Poster photoSrc={template.image} compact className="mx-auto max-h-80" />
+                ) : template.id === 10 ? (
+                  <Template10Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
                 ) : null}
               </div>
             ) : (
