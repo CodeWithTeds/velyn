@@ -28,7 +28,7 @@ export function Template7Poster({
   onPointerDown,
   onPointerMove,
   onPointerUp,
-  date = '09 MAY 2026',
+  date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(),
   university = 'DESIGN FACULTY\nARTS UNIVERSITY\nVELYN DIGITAL STUDIO',
   scriptText = 'I think',
   mainText = 'WE HAVE OUR OWN',
@@ -77,9 +77,9 @@ export function Template7Poster({
       </div>
 
       {/* Top Left Header */}
-      <div className={`absolute z-20 pointer-events-none flex flex-col gap-2 ${compact ? 'left-[4%] top-[3%]' : 'left-[12%] top-[5%]'}`}>
-        <div className="bg-slate-900 px-2 py-0.5 rounded-[2px] w-fit">
-          <span className={`font-bold text-white uppercase ${compact ? 'text-[6px]' : 'text-[10px]'}`}>
+      <div className={`absolute z-20 pointer-events-none flex flex-col ${compact ? 'left-[4%] top-[3%] gap-1' : 'left-[8%] top-[5%] gap-2'}`}>
+        <div className={`bg-slate-900 w-fit flex items-center justify-center ${compact ? 'h-[10px] px-1.5 rounded-[1px]' : 'px-2 py-0.5 rounded-[2px]'}`}>
+          <span className={`font-bold text-white uppercase ${compact ? 'text-[6px] leading-none' : 'text-[10px]'}`}>
             {date}
           </span>
         </div>
@@ -91,7 +91,6 @@ export function Template7Poster({
       </div>
 
       {/* Bottom Right Content Section */}
-      {/* FIX: changed right-[15%] → right-[8%] and added pl-6 (margin-left) on the inner wrapper */}
       <div className="absolute right-[8%] bottom-[22%] z-20 pointer-events-none flex flex-col items-start gap-1 pl-6">
         <span
           className={`text-[#f97316] drop-shadow-sm ${compact ? 'text-[18px]' : 'text-[45px]'}`}
@@ -110,7 +109,7 @@ export function Template7Poster({
       </div>
 
       {/* Vertical Archive Text */}
-      <div className="absolute right-[4%] bottom-[18%] z-20 pointer-events-none -rotate-90 origin-bottom-right">
+      <div className={`absolute right-[4%] z-20 pointer-events-none -rotate-90 ${compact ? 'bottom-[4%] origin-bottom-left translate-x-full' : 'bottom-[22%] origin-bottom-right'}`}>
         <span className={`font-medium text-slate-950 italic drop-shadow-[0_1.2px_1.2px_rgba(255,255,255,0.8)] ${compact ? 'text-[8px]' : 'text-[15px]'}`}>
           {archiveName}
         </span>

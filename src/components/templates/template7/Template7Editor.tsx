@@ -27,7 +27,6 @@ export function Template7Editor({
   });
   
   // State for new typographic fields (Updated to English defaults)
-  const [date, setDate] = useState('09 MAY 2026');
   const [university, setUniversity] = useState('DESIGN FACULTY\nARTS UNIVERSITY\nVELYN DIGITAL STUDIO');
   const [scriptText, setScriptText] = useState('I think');
   const [mainText, setMainText] = useState('WE HAVE OUR OWN');
@@ -157,7 +156,6 @@ export function Template7Editor({
           <Template7Poster
             imageSrc={uploadedImage ?? defaultImage}
             imageTransform={imageTransform}
-            date={date}
             university={university}
             scriptText={scriptText}
             mainText={mainText}
@@ -180,15 +178,6 @@ export function Template7Editor({
         <section className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
           <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Typography</h3>
           
-          <label className="block">
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Event Date</span>
-            <input
-              type="text"
-              value={date}
-              onChange={(e) => setDate(e.target.value.toUpperCase())}
-              className="mt-1 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-bold outline-none focus:border-slate-950"
-            />
-          </label>
 
           <label className="block">
             <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Institution / Info</span>
