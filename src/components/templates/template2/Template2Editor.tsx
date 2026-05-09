@@ -20,7 +20,7 @@ export function Template2Editor({
   fullscreen = false,
 }: Template2EditorProps) {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [imageTransform, setImageTransform] = useState<ImageTransform>(defaultImageTransform);
+  const [imageTransform, setImageTransform] = useState<ImageTransform>({ ...defaultImageTransform, scale: 96 });
   const downloadRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
     originX: number;

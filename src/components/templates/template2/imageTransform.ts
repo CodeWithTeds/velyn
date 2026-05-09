@@ -8,7 +8,7 @@ export type ImageTransform = {
 };
 
 export const defaultImageTransform: ImageTransform = {
-  scale: 100,
+  scale: 96,
   x: 0,
   y: 0,
   rotate: 0,

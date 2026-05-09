@@ -14,7 +14,7 @@ type Template2PosterProps = {
 
 export function Template2Poster({
   imageSrc = '/images/test1.png',
-  imageTransform = defaultImageTransform,
+  imageTransform = { ...defaultImageTransform, scale: 96 },
   compact = false,
   className = '',
   onPointerDown,
@@ -43,17 +43,19 @@ export function Template2Poster({
       {/* Background Graphic Grid */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:16px_16px]" />
 
-      <img
-        src={imageSrc}
-        alt="Acid portrait poster"
-        className="absolute inset-0 z-10 h-full w-full object-cover mix-blend-multiply"
-        style={{
-          filter: `grayscale(1) contrast(${imageTransform.contrast}%) brightness(${imageTransform.brightness}%)`,
-          transform: `translate3d(${imageTransform.x}%, ${imageTransform.y}%, 0) scale(${imageTransform.scale / 100}) rotate(${imageTransform.rotate}deg)`,
-          transformOrigin: 'center',
-        }}
-        draggable={false}
-      />
+      <div className="absolute inset-2 z-10">
+        <img
+          src={imageSrc}
+          alt="Acid portrait poster"
+          className="h-full w-full object-contain mix-blend-multiply"
+          style={{
+            filter: `grayscale(1) contrast(${imageTransform.contrast}%) brightness(${imageTransform.brightness}%)`,
+            transform: `translate3d(${imageTransform.x}%, ${imageTransform.y}%, 0) scale(${imageTransform.scale / 100}) rotate(${imageTransform.rotate}deg)`,
+            transformOrigin: 'center',
+          }}
+          draggable={false}
+        />
+      </div>
 
       {/* Overlays */}
       <div className="absolute inset-0 z-20 shadow-[inset_0_0_120px_rgba(204,255,0,0.6)] pointer-events-none" />
@@ -70,20 +72,18 @@ export function Template2Poster({
         </span>
       </div>
 
-
       {/* Typography bottom */}
       <div className="absolute left-0 bottom-[12%] z-30 w-full overflow-hidden pointer-events-none">
         <h3
-          className={`whitespace-nowrap font-black uppercase leading-[0.8] tracking-tighter text-black mix-blend-overlay ${
-            compact ? 'text-[clamp(2.5rem,7vw,4rem)]' : 'text-[clamp(4.5rem,10vw,7rem)]'
-          } -ml-[2%]`}
+          className={`font-black uppercase leading-[0.8] tracking-tighter text-black mix-blend-overlay ${compact ? 'text-[clamp(1.8rem,6vw,2.8rem)]' : 'text-[clamp(4.5rem,10vw,7rem)]'
+            } ml-[2%]`}
         >
           NEON
           <br />
           <span className="text-white mix-blend-difference">WAVE.</span>
         </h3>
       </div>
-      
+
       {/* Decals bottom right */}
       <div className={`absolute right-[5%] bottom-[5%] z-30 flex flex-col gap-1 pointer-events-none ${compact ? 'w-6' : 'w-10'}`}>
         <div className="h-1 w-full bg-black"></div>
