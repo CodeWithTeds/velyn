@@ -14,7 +14,7 @@ export function DownloadButton({ targetRef, fileName = 'download.png', className
 
   const handleDownload = useCallback(async () => {
     const now = Date.now();
- 
+
     // Rate limit: 3000ms cooldown
     if (now - lastDownloadTime.current < 3000) return;
     if (!targetRef.current) return;
@@ -27,6 +27,7 @@ export function DownloadButton({ targetRef, fileName = 'download.png', className
         quality: 1,
         pixelRatio: 2,
         skipFonts: false,
+        cacheBust: true,
       });
 
       const link = document.createElement('a');

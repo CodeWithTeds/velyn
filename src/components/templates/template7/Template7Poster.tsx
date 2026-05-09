@@ -41,6 +41,7 @@ export function Template7Poster({
     const link = document.createElement('link');
     link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Satisfy&display=swap';
     link.rel = 'stylesheet';
+    link.crossOrigin = 'anonymous';
     document.head.appendChild(link);
   }, []);
 

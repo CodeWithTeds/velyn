@@ -50,6 +50,7 @@ export function Template10Poster({
     const link = document.createElement('link');
     link.href = 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Satisfy&display=swap';
     link.rel = 'stylesheet';
+    link.crossOrigin = 'anonymous';
     document.head.appendChild(link);
 
     // Rough.js Drawing for subtle sketchy details
