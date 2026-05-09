@@ -25,7 +25,7 @@ export function Template5Editor({
   const [subtitle, setSubtitle] = useState('ON ME');
   const [author, setAuthor] = useState('ARTIST');
   const [quote, setQuote] = useState('I CANNOT FOCUS ON ANYTHING BUT YOU');
-  const [brand, setBrand] = useState('CORTIS');
+  const [brand, setBrand] = useState('VELYN');
   
   const downloadRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{

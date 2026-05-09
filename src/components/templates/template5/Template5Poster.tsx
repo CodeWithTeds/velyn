@@ -86,7 +86,7 @@ export function Template5Poster({
             <span className={`font-bold tracking-widest text-white/90 ${compact ? 'text-[7px]' : 'text-[12px]'}`}>{brand}</span>
           </div>
           <h1
-            className={`mt-4 text-center font-black uppercase leading-[0.8] tracking-tighter text-white drop-shadow-2xl ${compact ? 'text-[42px]' : 'text-[140px]'}`}
+            className={`mt-4 text-center font-black uppercase leading-[0.8] tracking-tight text-white drop-shadow-2xl ${compact ? 'text-[42px]' : 'text-[140px]'}`}
             style={{ fontFamily: 'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif' }}
           >
             {title}
@@ -107,7 +107,7 @@ export function Template5Poster({
         {/* Bottom Header */}
         <div className="flex flex-col gap-8">
           <h2
-            className={`text-center font-black uppercase leading-[0.8] tracking-tighter text-white drop-shadow-2xl ${compact ? 'text-[42px]' : 'text-[140px]'}`}
+            className={`text-center font-black uppercase leading-[0.8] tracking-tight text-white drop-shadow-2xl ${compact ? 'text-[42px]' : 'text-[140px]'}`}
             style={{ fontFamily: 'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif' }}
           >
             {subtitle}
