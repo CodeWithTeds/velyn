@@ -28,14 +28,6 @@ type BusinessTemplateSample = {
 
 type TemplateCategory = 'personal' | 'food' | 'business';
 
-const personalStandardTemplate: Template = {
-  id: 9,
-  kind: 'standard',
-  title: 'Personal Storyboard',
-  description: 'A clean image-led layout for personal memories, profiles, and creative updates.',
-  image: '/images/test2.png',
-};
-
 const personalTemplates: Template[] = [
   template1,
   template2,
@@ -47,7 +39,6 @@ const personalTemplates: Template[] = [
   template6,
   template7,
   template10,
-  personalStandardTemplate,
 ];
 
 const foodTemplates: BusinessTemplateSample[] = [
@@ -299,11 +290,10 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`rounded-full px-5 py-3 text-xs font-black uppercase tracking-[0.16em] transition duration-300 ${
-                  isSelected
+                className={`rounded-full px-5 py-3 text-xs font-black uppercase tracking-[0.16em] transition duration-300 ${isSelected
                     ? 'bg-ink text-white shadow-[0_10px_22px_rgb(0_0_0_/_0.16)]'
                     : 'text-muted hover:bg-slate-100 hover:text-ink'
-                }`}
+                  }`}
               >
                 {categoryLabels[category]}
               </button>
