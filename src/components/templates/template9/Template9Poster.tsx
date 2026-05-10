@@ -149,18 +149,18 @@ export function Template9Poster({
         viewBox="0 0 1080 1920"
       />
 
-      <header className="absolute left-[5%] top-[4.4%] z-30 flex w-[70%] items-center gap-[3%] text-[#06264a]">
+      <header className={`absolute ${compact ? 'left-[2%] top-[5%] gap-[2%]' : 'left-[5%] top-[4.4%] gap-[3%]'} z-30 flex w-fit ${compact ? 'max-w-[96%]' : 'max-w-[82%]'} items-center text-[#06264a]`}>
         <img
           src={logoSrc}
           alt="School council logo"
-          className="h-[clamp(2.25rem,7vw,4rem)] w-[clamp(2.25rem,7vw,4rem)] object-contain"
+          className={`${compact ? 'h-[clamp(0.7rem,3vw,1.4rem)] w-[clamp(0.7rem,3vw,1.4rem)]' : 'h-[clamp(2.25rem,7vw,4rem)] w-[clamp(2.25rem,7vw,4rem)]'} object-contain`}
           draggable={false}
         />
-        <div className="min-w-0">
-          <p className="truncate text-[clamp(0.55rem,2vw,1.05rem)] font-extrabold italic leading-none tracking-normal">
+        <div>
+          <p className={`whitespace-nowrap ${compact ? 'text-[clamp(0.28rem,1.2vw,0.55rem)]' : 'text-[clamp(0.5rem,1.9vw,0.95rem)]'} font-extrabold italic leading-none tracking-normal`}>
             {councilName}
           </p>
-          <p className="mt-1 truncate text-[clamp(0.42rem,1.4vw,0.72rem)] font-bold italic leading-none">
+          <p className={`mt-0.5 whitespace-nowrap ${compact ? 'text-[clamp(0.22rem,0.9vw,0.4rem)]' : 'text-[clamp(0.38rem,1.3vw,0.65rem)]'} font-bold italic leading-none`}>
             {schoolName}
           </p>
         </div>
@@ -182,7 +182,7 @@ export function Template9Poster({
       />
 
       <div
-        className="absolute inset-x-0 bottom-[13%] z-30 h-[72%] cursor-grab touch-none active:cursor-grabbing"
+        className="absolute inset-x-0 bottom-[13%] z-30 h-[72%] flex items-end justify-center cursor-grab touch-none active:cursor-grabbing"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -190,7 +190,7 @@ export function Template9Poster({
         <img
           src={photoSrc}
           alt={`${name} portrait`}
-          className="h-full w-full object-cover object-center"
+          className="w-full h-auto"
           style={{
             filter: `brightness(${photoTransform.brightness}%) contrast(${photoTransform.contrast}%) drop-shadow(8px 0 0 white) drop-shadow(-8px 0 0 white) drop-shadow(0 8px 0 white) drop-shadow(0 -8px 0 white) drop-shadow(0 24px 18px rgb(0 0 0 / 0.28))`,
             transform: `translate3d(${photoTransform.x}%, ${photoTransform.y}%, 0) scale(${photoTransform.scale / 100}) rotate(${photoTransform.rotate}deg)`,

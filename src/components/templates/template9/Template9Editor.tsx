@@ -311,7 +311,7 @@ export function Template9Editor({
           {imageFields.map((field) => (
             <label
               key={field.key}
-              className="block cursor-pointer rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-950"
+              className="relative block cursor-pointer rounded-md border border-slate-200 bg-white p-3 transition hover:border-slate-950"
             >
               <span className="block text-xs font-bold uppercase tracking-widest text-slate-950">{field.label}</span>
               <span className="mt-1 block text-xs leading-5 text-slate-500">{field.description}</span>
