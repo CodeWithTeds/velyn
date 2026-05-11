@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import type { ChangeEvent, PointerEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent, type PointerEvent, type PointerEventHandler } from 'react';
 import { DownloadButton } from '../../editor/DownloadButton';
 import { EditorCanvas } from '../../editor/EditorCanvas';
 import { EditorToolbar } from '../../editor/EditorToolbar';
@@ -15,6 +14,11 @@ type Template9EditorProps = {
 };
 
 type ImageKey = 'logo' | 'photo';
+type ElementTransform = {
+  x: number;
+  y: number;
+  scale: number;
+};
 type PhotoTransform = {
   brightness: number;
   contrast: number;
@@ -59,9 +63,15 @@ export function Template9Editor({
   const [backgroundColor, setBackgroundColor] = useState('#062c58');
   const [textColor, setTextColor] = useState('#ffffff');
   const [photoTransform, setPhotoTransform] = useState<PhotoTransform>(defaultPhotoTransform);
+  const [councilTransform, setCouncilTransform] = useState<ElementTransform>({ x: 0, y: 0, scale: 1 });
+  const [schoolTransform, setSchoolTransform] = useState<ElementTransform>({ x: 0, y: 0, scale: 1 });
+  const [nameTransform, setNameTransform] = useState<ElementTransform>({ x: 0, y: 0, scale: 1 });
+  const [titleTransform, setTitleTransform] = useState<ElementTransform>({ x: 0, y: 0, scale: 1 });
+
   const downloadRef = useRef<HTMLDivElement>(null);
   const uploadedUrlsRef = useRef<string[]>([]);
   const dragStateRef = useRef<{
+    elementId: string;
     originX: number;
     originY: number;
     pointerId: number;
@@ -122,25 +132,71 @@ export function Template9Editor({
   };
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    handleElementPointerDown('photo', event);
+  };
+
+  const handleElementPointerDown = (id: string, event: PointerEvent<HTMLDivElement>) => {
     event.currentTarget.setPointerCapture(event.pointerId);
+    let originX = 0;
+    let originY = 0;
+
+    if (id === 'photo') {
+      originX = photoTransform.x;
+      originY = photoTransform.y;
+    } else if (id === 'council') {
+      originX = councilTransform.x;
+      originY = councilTransform.y;
+    } else if (id === 'school') {
+      originX = schoolTransform.x;
+      originY = schoolTransform.y;
+    } else if (id === 'name') {
+      originX = nameTransform.x;
+      originY = nameTransform.y;
+    } else if (id === 'title') {
+      originX = titleTransform.x;
+      originY = titleTransform.y;
+    }
+
     dragStateRef.current = {
-      originX: photoTransform.x,
-      originY: photoTransform.y,
+      elementId: id,
+      originX,
+      originY,
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
     };
+    event.stopPropagation();
   };
 
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     const dragState = dragStateRef.current;
     if (!dragState || dragState.pointerId !== event.pointerId) return;
 
-    setPhotoTransform((currentTransform) => ({
-      ...currentTransform,
-      x: clamp(dragState.originX + (event.clientX - dragState.startX) / 5, -32, 32),
-      y: clamp(dragState.originY + (event.clientY - dragState.startY) / 5, -26, 26),
-    }));
+    const dx = (event.clientX - dragState.startX) / 1;
+    const dy = (event.clientY - dragState.startY) / 1;
+
+    if (dragState.elementId === 'photo') {
+      setPhotoTransform((currentTransform) => ({
+        ...currentTransform,
+        x: clamp(dragState.originX + dx / 5, -32, 32),
+        y: clamp(dragState.originY + dy / 5, -26, 26),
+      }));
+    } else {
+      const setterMap: Record<string, (val: any) => void> = {
+        council: setCouncilTransform,
+        school: setSchoolTransform,
+        name: setNameTransform,
+        title: setTitleTransform,
+      };
+      const setter = setterMap[dragState.elementId];
+      if (setter) {
+        setter((prev: ElementTransform) => ({
+          ...prev,
+          x: dragState.originX + dx,
+          y: dragState.originY + dy,
+        }));
+      }
+    }
   };
 
   const handlePointerUp = (event: PointerEvent<HTMLDivElement>) => {
@@ -189,11 +245,16 @@ export function Template9Editor({
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
+            onElementPointerDown={handleElementPointerDown}
             photoTransform={photoTransform}
             photoSrc={photoSrc}
             schoolName={schoolName}
             textColor={textColor}
             title={title}
+            councilTransform={councilTransform}
+            schoolTransform={schoolTransform}
+            nameTransform={nameTransform}
+            titleTransform={titleTransform}
           />
         </div>
       </EditorCanvas>
@@ -304,6 +365,14 @@ export function Template9Editor({
               className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-3 text-sm font-bold tracking-normal text-slate-950 outline-none transition focus:border-slate-950"
             />
           </label>
+        </section>
+
+        <section className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
+          <h3 className="text-sm font-extrabold tracking-normal text-slate-950">Text Scaling</h3>
+          <EditorSlider label="Council Size" min={0.5} max={2} step={0.05} value={councilTransform.scale} onChange={(val) => setCouncilTransform(prev => ({ ...prev, scale: val }))} />
+          <EditorSlider label="School Size" min={0.5} max={2} step={0.05} value={schoolTransform.scale} onChange={(val) => setSchoolTransform(prev => ({ ...prev, scale: val }))} />
+          <EditorSlider label="Name Size" min={0.5} max={2} step={0.05} value={nameTransform.scale} onChange={(val) => setNameTransform(prev => ({ ...prev, scale: val }))} />
+          <EditorSlider label="Title Size" min={0.5} max={2} step={0.05} value={titleTransform.scale} onChange={(val) => setTitleTransform(prev => ({ ...prev, scale: val }))} />
         </section>
 
         <section className="space-y-3">

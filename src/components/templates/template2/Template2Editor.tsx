@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import type { ChangeEvent, PointerEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent, type PointerEvent } from 'react';
 import { EditorCanvas } from '../../editor/EditorCanvas';
 import { EditorToolbar } from '../../editor/EditorToolbar';
 import { InspectorPanel } from '../../editor/InspectorPanel';

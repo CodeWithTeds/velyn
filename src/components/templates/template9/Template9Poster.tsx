@@ -1,6 +1,4 @@
-import { useEffect, useRef } from 'react';
-import type { CSSProperties } from 'react';
-import type { PointerEventHandler } from 'react';
+import { useEffect, useRef, type CSSProperties, type PointerEvent, type PointerEventHandler } from 'react';
 import rough from 'roughjs';
 
 type RoughSvg = ReturnType<typeof rough.svg>;
@@ -29,6 +27,11 @@ type Template9PosterProps = {
   schoolName?: string;
   textColor?: string;
   title?: string;
+  councilTransform?: { x: number; y: number; scale: number };
+  schoolTransform?: { x: number; y: number; scale: number };
+  nameTransform?: { x: number; y: number; scale: number };
+  titleTransform?: { x: number; y: number; scale: number };
+  onElementPointerDown?: (id: string, event: PointerEvent<HTMLDivElement>) => void;
 };
 
 function append(svg: SVGSVGElement, node: SVGGElement) {
@@ -104,10 +107,15 @@ export function Template9Poster({
   schoolName = 'Falconridge School of Excellence',
   textColor = '#ffffff',
   title = 'Secretary',
+  councilTransform = { x: 0, y: 0, scale: 1 },
+  schoolTransform = { x: 0, y: 0, scale: 1 },
+  nameTransform = { x: 0, y: 0, scale: 1 },
+  titleTransform = { x: 0, y: 0, scale: 1 },
+  onElementPointerDown,
 }: Template9PosterProps) {
   const doodleRef = useRef<SVGSVGElement>(null);
-  const nameSize = compact ? 'text-[clamp(0.9rem,4.5vw,1.6rem)]' : 'text-[clamp(1.8rem,5.5vw,3.2rem)]';
-  const titleSize = compact ? 'text-[clamp(0.65rem,3vw,0.95rem)]' : 'text-[clamp(1.1rem,3.5vw,1.8rem)]';
+  const nameSize = compact ? 'text-[clamp(0.9rem,4.5vw,1.6rem)]' : 'text-[clamp(1.0rem,3.2vw,1.8rem)]';
+  const titleSize = compact ? 'text-[clamp(0.65rem,3vw,0.95rem)]' : 'text-[clamp(0.65rem,2.2vw,1.1rem)]';
 
   useEffect(() => {
     if (doodleRef.current) {
@@ -118,6 +126,8 @@ export function Template9Poster({
   return (
     <div
       className={`relative isolate aspect-[9/16] overflow-hidden bg-slate-100 text-white ${className}`}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
       style={{
         '--template9-bg': backgroundColor,
         '--template9-text': textColor,
@@ -156,13 +166,31 @@ export function Template9Poster({
           className={`${compact ? 'h-[clamp(0.7rem,3vw,1.4rem)] w-[clamp(0.7rem,3vw,1.4rem)]' : 'h-[clamp(2.25rem,7vw,4rem)] w-[clamp(2.25rem,7vw,4rem)]'} object-contain`}
           draggable={false}
         />
-        <div>
-          <p className={`whitespace-nowrap ${compact ? 'text-[clamp(0.28rem,1.2vw,0.55rem)]' : 'text-[clamp(0.5rem,1.9vw,0.95rem)]'} font-extrabold italic leading-none tracking-normal`}>
-            {councilName}
-          </p>
-          <p className={`mt-0.5 whitespace-nowrap ${compact ? 'text-[clamp(0.22rem,0.9vw,0.4rem)]' : 'text-[clamp(0.38rem,1.3vw,0.65rem)]'} font-bold italic leading-none`}>
-            {schoolName}
-          </p>
+        <div className="min-w-0">
+          <div
+            className="cursor-grab active:cursor-grabbing"
+            onPointerDown={(e) => onElementPointerDown?.('council', e)}
+            style={{
+              transform: `translate(${councilTransform.x}px, ${councilTransform.y}px) scale(${councilTransform.scale})`,
+              transformOrigin: 'left center',
+            }}
+          >
+            <p className="truncate text-[clamp(0.35rem,1.3vw,0.7rem)] font-extrabold italic leading-none tracking-normal">
+              {councilName}
+            </p>
+          </div>
+          <div
+            className="mt-1 cursor-grab active:cursor-grabbing"
+            onPointerDown={(e) => onElementPointerDown?.('school', e)}
+            style={{
+              transform: `translate(${schoolTransform.x}px, ${schoolTransform.y}px) scale(${schoolTransform.scale})`,
+              transformOrigin: 'left center',
+            }}
+          >
+            <p className="truncate text-[clamp(0.42rem,1.4vw,0.72rem)] font-bold italic leading-none">
+              {schoolName}
+            </p>
+          </div>
         </div>
       </header>
 
@@ -184,8 +212,6 @@ export function Template9Poster({
       <div
         className="absolute inset-x-0 bottom-[13%] z-30 h-[72%] flex items-end justify-center cursor-grab touch-none active:cursor-grabbing"
         onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
       >
         <img
           src={photoSrc}
@@ -202,8 +228,13 @@ export function Template9Poster({
 
       <section className="absolute left-[7%] right-[7%] top-[55%] z-50">
         <div
-          className="w-fit max-w-[95%] skew-x-[-10deg] px-[5%] py-[1.5%] shadow-[0_10px_0_rgb(2_18_38_/_0.35)]"
-          style={{ backgroundColor: 'color-mix(in srgb, var(--template9-bg) 82%, black)' }}
+          className="w-fit max-w-[95%] cursor-grab skew-x-[-10deg] px-[5%] py-[1.5%] shadow-[0_10px_0_rgb(2_18_38_/_0.35)] active:cursor-grabbing"
+          style={{
+            backgroundColor: 'color-mix(in srgb, var(--template9-bg) 82%, black)',
+            transform: `translate(${nameTransform.x}px, ${nameTransform.y}px) scale(${nameTransform.scale})`,
+            transformOrigin: 'left center',
+          }}
+          onPointerDown={(e) => onElementPointerDown?.('name', e)}
         >
           <h2
             className={`${nameSize} max-w-full overflow-hidden text-ellipsis whitespace-nowrap pr-2 font-black uppercase italic leading-[1.1] tracking-normal text-white`}
@@ -213,11 +244,14 @@ export function Template9Poster({
           </h2>
         </div>
         <div
-          className="mt-[3.2%] w-fit max-w-[85%] px-[5%] py-[1.8%] shadow-[0_5px_12px_rgb(0_0_0_/_0.32)]"
+          className="mt-[3.2%] w-fit max-w-[85%] cursor-grab px-[5%] py-[1.8%] shadow-[0_5px_12px_rgb(0_0_0_/_0.32)] active:cursor-grabbing"
           style={{
             backgroundImage:
               'linear-gradient(90deg, color-mix(in srgb, var(--template9-bg) 82%, black) 0%, color-mix(in srgb, var(--template9-bg) 78%, white) 48%, color-mix(in srgb, var(--template9-bg) 84%, black) 100%)',
+            transform: `translate(${titleTransform.x}px, ${titleTransform.y}px) scale(${titleTransform.scale})`,
+            transformOrigin: 'left center',
           }}
+          onPointerDown={(e) => onElementPointerDown?.('title', e)}
         >
           <p
             className={`${titleSize} overflow-hidden text-ellipsis whitespace-nowrap pr-2 font-black uppercase italic leading-[1.1] tracking-normal text-white`}

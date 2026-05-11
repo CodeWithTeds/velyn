@@ -5,6 +5,7 @@ type EditorSliderProps = {
   max: number;
   min: number;
   onChange: (value: number) => void;
+  step?: number;
   suffix?: string;
   value: number;
 };
@@ -14,6 +15,7 @@ export function EditorSlider({
   max,
   min,
   onChange,
+  step = 1,
   suffix = '',
   value,
 }: EditorSliderProps) {
@@ -35,6 +37,7 @@ export function EditorSlider({
         type="range"
         min={min}
         max={max}
+        step={step}
         value={value}
         onChange={handleChange}
         className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-slate-200 outline-none accent-slate-950"
