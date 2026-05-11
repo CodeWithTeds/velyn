@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import rough from 'roughjs/bin/rough';
-import { sectionClass } from '../constants/sectionStyles';
+import { sectionClass } from '@/constants/sectionStyles';
 
 const artImages = [
   {

@@ -5,8 +5,8 @@ import {
   sectionHeaderClass,
   sectionSubtitleClass,
   sectionTitleClass,
-} from '../constants/sectionStyles';
-import type { Template } from '../types/template';
+} from '@/constants/sectionStyles';
+import type { Template } from '@/types/template';
 import {
   Template1Poster, template1,
   Template2Poster, template2,
@@ -18,7 +18,7 @@ import {
   Template8Poster, template8,
   Template9Poster, template9,
   Template10Poster, template10
-} from './templates/personal';
+} from '@/components/templates/personal';
 
 type BusinessTemplateSample = {
   accent: string;
@@ -371,3 +371,4 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
     </section>
   );
 }
+

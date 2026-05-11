@@ -1,4 +1,4 @@
-import type { Template } from '../types/template';
+import type { Template } from '@/types/template';
 import {
   Template1Poster,
   Template2Poster,
@@ -10,7 +10,7 @@ import {
   Template8Poster,
   Template9Poster,
   Template10Poster
-} from './templates/personal';
+} from '@/components/templates/personal';
 
 type TemplateModalProps = {
   isOpen: boolean;
@@ -144,3 +144,4 @@ export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: Tem
     </div>
   );
 }
+

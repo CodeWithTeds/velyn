@@ -1,10 +1,10 @@
-import { developers } from '../data/developers';
+import { developers } from '@/data/developers';
 import {
   sectionClass,
   sectionHeaderClass,
   sectionSubtitleClass,
   sectionTitleClass,
-} from '../constants/sectionStyles';
+} from '@/constants/sectionStyles';
 
 const developerFigureClass = 'developer-card flex min-w-0 flex-col items-center text-center';
 
@@ -36,3 +36,4 @@ export function DevelopersSection() {
     </section>
   );
 }
+

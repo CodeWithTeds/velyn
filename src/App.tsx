@@ -3,14 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { DevelopersSection } from './components/DevelopersSection';
-import { FeaturesSection } from './components/FeaturesSection';
-import { Footer } from './components/Footer';
-import { HeroSection } from './components/HeroSection';
-import { MemorySection } from './components/MemorySection';
-import { Navbar } from './components/Navbar';
-import { TemplatesSection } from './components/TemplatesSection';
-import { TemplateModal } from './components/TemplateModal';
+import { DevelopersSection } from '@/components/DevelopersSection';
+import { FeaturesSection } from '@/components/FeaturesSection';
+import { Footer } from '@/components/Footer';
+import { HeroSection } from '@/components/HeroSection';
+import { MemorySection } from '@/components/MemorySection';
+import { Navbar } from '@/components/Navbar';
+import { TemplatesSection } from '@/components/TemplatesSection';
+import { TemplateModal } from '@/components/TemplateModal';
 import {
   Template1EditorPage,
   Template2EditorPage,
@@ -22,8 +22,8 @@ import {
   Template8EditorPage,
   Template9EditorPage,
   Template10EditorPage
-} from './components/templates/personal';
-import type { Template } from './types/template';
+} from '@/components/templates/personal';
+import type { Template } from '@/types/template';
 
 gsap.registerPlugin(ScrollTrigger);
 
