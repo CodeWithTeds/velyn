@@ -1,0 +1,10 @@
+export { Template1Poster, Template1EditorPage, template1 } from './template1';
+export { Template2Poster, Template2EditorPage, template2 } from './template2';
+export { Template3Poster, Template3EditorPage, template3 } from './template3';
+export { Template4Poster, Template4EditorPage, template4 } from './template4';
+export { Template5Poster, Template5EditorPage, template5 } from './template5';
+export { Template6Poster, Template6EditorPage, template6 } from './template6';
+export { Template7Poster, Template7EditorPage, template7 } from './template7';
+export { Template8Poster, Template8EditorPage, template8 } from './template8';
+export { Template9Poster, Template9EditorPage, template9 } from './template9';
+export { Template10Poster, Template10EditorPage, template10 } from './template10';

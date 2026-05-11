@@ -1,14 +1,16 @@
 import type { Template } from '../types/template';
-import { Template1Poster } from './templates/template1';
-import { Template2Poster } from './templates/template2';
-import { Template3Poster } from './templates/template3';
-import { Template4Poster } from './templates/template4';
-import { Template5Poster } from './templates/template5';
-import { Template6Poster } from './templates/template6';
-import { Template7Poster } from './templates/template7';
-import { Template8Poster } from './templates/template8';
-import { Template9Poster } from './templates/template9';
-import { Template10Poster } from './templates/template10';
+import {
+  Template1Poster,
+  Template2Poster,
+  Template3Poster,
+  Template4Poster,
+  Template5Poster,
+  Template6Poster,
+  Template7Poster,
+  Template8Poster,
+  Template9Poster,
+  Template10Poster
+} from './templates/personal';
 
 type TemplateModalProps = {
   isOpen: boolean;

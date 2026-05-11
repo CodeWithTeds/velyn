@@ -11,16 +11,18 @@ import { MemorySection } from './components/MemorySection';
 import { Navbar } from './components/Navbar';
 import { TemplatesSection } from './components/TemplatesSection';
 import { TemplateModal } from './components/TemplateModal';
-import { Template1EditorPage } from './components/templates/template1';
-import { Template2EditorPage } from './components/templates/template2';
-import { Template3EditorPage } from './components/templates/template3';
-import { Template4EditorPage } from './components/templates/template4';
-import { Template5EditorPage } from './components/templates/template5';
-import { Template6EditorPage } from './components/templates/template6';
-import { Template7EditorPage } from './components/templates/template7';
-import { Template8EditorPage } from './components/templates/template8';
-import { Template9EditorPage } from './components/templates/template9';
-import { Template10EditorPage } from './components/templates/template10';
+import {
+  Template1EditorPage,
+  Template2EditorPage,
+  Template3EditorPage,
+  Template4EditorPage,
+  Template5EditorPage,
+  Template6EditorPage,
+  Template7EditorPage,
+  Template8EditorPage,
+  Template9EditorPage,
+  Template10EditorPage
+} from './components/templates/personal';
 import type { Template } from './types/template';
 
 gsap.registerPlugin(ScrollTrigger);

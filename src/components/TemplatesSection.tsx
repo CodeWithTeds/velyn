@@ -7,16 +7,18 @@ import {
   sectionTitleClass,
 } from '../constants/sectionStyles';
 import type { Template } from '../types/template';
-import { Template1Poster, template1 } from './templates/template1';
-import { Template2Poster, template2 } from './templates/template2';
-import { Template3Poster, template3 } from './templates/template3';
-import { Template4Poster, template4 } from './templates/template4';
-import { Template5Poster, template5 } from './templates/template5';
-import { Template6Poster, template6 } from './templates/template6';
-import { Template7Poster, template7 } from './templates/template7';
-import { Template8Poster, template8 } from './templates/template8';
-import { Template9Poster, template9 } from './templates/template9';
-import { Template10Poster, template10 } from './templates/template10';
+import {
+  Template1Poster, template1,
+  Template2Poster, template2,
+  Template3Poster, template3,
+  Template4Poster, template4,
+  Template5Poster, template5,
+  Template6Poster, template6,
+  Template7Poster, template7,
+  Template8Poster, template8,
+  Template9Poster, template9,
+  Template10Poster, template10
+} from './templates/personal';
 
 type BusinessTemplateSample = {
   accent: string;
