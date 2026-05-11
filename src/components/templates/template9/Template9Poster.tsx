@@ -159,14 +159,14 @@ export function Template9Poster({
         viewBox="0 0 1080 1920"
       />
 
-      <header className={`absolute ${compact ? 'left-[2%] top-[5%] gap-[2%]' : 'left-[5%] top-[4.4%] gap-[3%]'} z-30 flex w-fit ${compact ? 'max-w-[96%]' : 'max-w-[82%]'} items-center text-[#06264a]`}>
+      <header className={`absolute ${compact ? 'left-[1%] top-[5%] gap-[0.2%]' : 'left-[3%] top-[4.4%] gap-[0.4%]'} z-30 flex w-fit ${compact ? 'max-w-[96%]' : 'max-w-[82%]'} items-center text-[#06264a]`}>
         <img
           src={logoSrc}
           alt="School council logo"
           className={`${compact ? 'h-[clamp(0.7rem,3vw,1.4rem)] w-[clamp(0.7rem,3vw,1.4rem)]' : 'h-[clamp(2.25rem,7vw,4rem)] w-[clamp(2.25rem,7vw,4rem)]'} object-contain`}
           draggable={false}
         />
-        <div className="min-w-0">
+        <div className={compact ? '-ml-0.5' : '-ml-2'}>
           <div
             className="cursor-grab active:cursor-grabbing"
             onPointerDown={(e) => onElementPointerDown?.('council', e)}
@@ -175,7 +175,7 @@ export function Template9Poster({
               transformOrigin: 'left center',
             }}
           >
-            <p className="truncate text-[clamp(0.35rem,1.3vw,0.7rem)] font-extrabold italic leading-none tracking-normal">
+            <p className={`whitespace-nowrap ${compact ? 'text-[clamp(0.25rem,1.1vw,0.5rem)]' : 'text-[clamp(0.55rem,2.1vw,1.05rem)]'} font-extrabold italic leading-none tracking-normal`}>
               {councilName}
             </p>
           </div>
@@ -187,7 +187,7 @@ export function Template9Poster({
               transformOrigin: 'left center',
             }}
           >
-            <p className="truncate text-[clamp(0.42rem,1.4vw,0.72rem)] font-bold italic leading-none">
+            <p className={`mt-0.5 whitespace-nowrap ${compact ? 'text-[clamp(0.18rem,0.8vw,0.32rem)]' : 'text-[clamp(0.4rem,1.4vw,0.72rem)]'} font-bold italic leading-none`}>
               {schoolName}
             </p>
           </div>
