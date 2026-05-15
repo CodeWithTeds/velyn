@@ -19,6 +19,7 @@ import {
   Template9Poster, template9,
   Template10Poster, template10
 } from '@/components/templates/personal';
+import { Food1Poster, food1 } from '@/components/templates/food';
 
 type BusinessTemplateSample = {
   accent: string;
@@ -41,6 +42,10 @@ const personalTemplates: Template[] = [
   template6,
   template7,
   template10,
+];
+
+const foodTemplatesList: Template[] = [
+  food1,
 ];
 
 const foodTemplates: BusinessTemplateSample[] = [
@@ -293,8 +298,8 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 className={`rounded-full px-5 py-3 text-xs font-black uppercase tracking-[0.16em] transition duration-300 ${isSelected
-                    ? 'bg-ink text-white shadow-[0_10px_22px_rgb(0_0_0_/_0.16)]'
-                    : 'text-muted hover:bg-slate-100 hover:text-ink'
+                  ? 'bg-ink text-white shadow-[0_10px_22px_rgb(0_0_0_/_0.16)]'
+                  : 'text-muted hover:bg-slate-100 hover:text-ink'
                   }`}
               >
                 {categoryLabels[category]}
@@ -308,65 +313,71 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
         key={selectedCategory}
         className="template-grid-enter grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
       >
-        {selectedCategory === 'personal' ? personalTemplates.map((template) => (
-          <article
-            key={template.id}
-            className="preview-card flex flex-col overflow-hidden rounded-lg transition-[transform] duration-300 hover:-translate-y-1"
-          >
-            {template.kind === 'portrait-poster' ? (
-              <div className="bg-transparent p-0">
-                {template.id === 0 ? (
-                  <Template1Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : template.id === 1 ? (
-                  <Template2Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : template.id === 2 ? (
-                  <Template3Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : template.id === 3 ? (
-                  <Template4Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : template.id === 4 ? (
-                  <Template5Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : template.id === 5 ? (
-                  <Template6Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : template.id === 6 ? (
-                  <Template7Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : template.id === 7 ? (
-                  <Template8Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : template.id === 8 ? (
-                  <Template9Poster photoSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : template.id === 10 ? (
-                  <Template10Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
-                ) : null}
-              </div>
-            ) : (
-              <img
-                src={template.image}
-                alt={`${template.title} preview`}
-                className="aspect-[4/3] w-full object-cover"
-              />
-            )}
-            <div className="flex flex-1 flex-col p-6 text-left">
-              {template.kind === 'portrait-poster' && (
-                <span className="mb-3 w-fit rounded-full bg-red-50 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-red-600">
-                  1080 x 1920
-                </span>
+        {selectedCategory === 'business' ? (
+          businessTemplates.map((template) => (
+            <BusinessTemplateCard key={template.id} template={template} />
+          ))
+        ) : (
+          (selectedCategory === 'personal' ? personalTemplates : foodTemplatesList).map((template) => (
+            <article
+              key={template.id}
+              className="preview-card flex flex-col overflow-hidden rounded-lg transition-[transform] duration-300 hover:-translate-y-1"
+            >
+              {template.kind === 'portrait-poster' || template.kind === 'food-poster' ? (
+                <div className="bg-transparent p-0">
+                  {template.id === 0 ? (
+                    <Template1Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 1 ? (
+                    <Template2Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 2 ? (
+                    <Template3Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 3 ? (
+                    <Template4Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 4 ? (
+                    <Template5Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 5 ? (
+                    <Template6Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 6 ? (
+                    <Template7Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 7 ? (
+                    <Template8Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 8 ? (
+                    <Template9Poster photoSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 10 ? (
+                    <Template10Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 11 ? (
+                    <Food1Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : null}
+                </div>
+              ) : (
+                <img
+                  src={template.image}
+                  alt={`${template.title} preview`}
+                  className="aspect-[4/3] w-full object-cover"
+                />
               )}
-              <h3 className="text-xl font-bold tracking-normal text-ink">{template.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-muted">
-                {template.description}
-              </p>
-              <div className="mt-auto pt-6">
-                <button
-                  onClick={() => onOpenModal(template)}
-                  className="w-full rounded-md bg-ink py-2.5 text-[10px] font-bold uppercase tracking-widest text-white transition-all duration-300 hover:bg-black hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-ink focus:ring-offset-2"
-                >
-                  Use Template
-                </button>
+              <div className="flex flex-1 flex-col p-6 text-left">
+                {(template.kind === 'portrait-poster' || template.kind === 'food-poster') && (
+                  <span className="mb-3 w-fit rounded-full bg-red-50 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-red-600">
+                    1080 x 1920
+                  </span>
+                )}
+                <h3 className="text-xl font-bold tracking-normal text-ink">{template.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted">
+                  {template.description}
+                </p>
+                <div className="mt-auto pt-6">
+                  <button
+                    onClick={() => onOpenModal(template)}
+                    className="w-full rounded-md bg-ink py-2.5 text-[10px] font-bold uppercase tracking-widest text-white transition-all duration-300 hover:bg-black hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-ink focus:ring-offset-2"
+                  >
+                    Use Template
+                  </button>
+                </div>
               </div>
-            </div>
-          </article>
-        )) : sampleTemplates.map((template) => (
-          <BusinessTemplateCard key={template.id} template={template} />
-        ))}
+            </article>
+          ))
+        )}
       </div>
     </section>
   );

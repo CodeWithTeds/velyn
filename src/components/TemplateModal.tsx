@@ -11,6 +11,7 @@ import {
   Template9Poster,
   Template10Poster
 } from '@/components/templates/personal';
+import { Food1Poster } from '@/components/templates/food';
 
 type TemplateModalProps = {
   isOpen: boolean;
@@ -38,7 +39,7 @@ export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: Tem
       {/* Modal Content */}
       <div
         className={`relative w-full overflow-hidden rounded-2xl bg-white shadow-2xl ${
-          template.kind === 'portrait-poster' ? 'max-w-4xl bg-slate-100 md:h-[86vh]' : 'max-w-5xl md:h-[600px]'
+          template.kind === 'portrait-poster' || template.kind === 'food-poster' ? 'max-w-4xl bg-slate-100 md:h-[86vh]' : 'max-w-5xl md:h-[600px]'
         }`}
       >
         <button 
@@ -51,7 +52,7 @@ export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: Tem
           </svg>
         </button>
 
-        {template.kind === 'portrait-poster' ? (
+        {template.kind === 'portrait-poster' || template.kind === 'food-poster' ? (
           <div className="flex h-full flex-col items-center justify-center bg-slate-100 p-5">
             <div className="flex min-h-0 flex-1 items-center justify-center rounded-lg border border-slate-200 bg-white p-2 shadow-inner sm:p-4">
               {template.id === 0 ? (
@@ -74,6 +75,8 @@ export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: Tem
                 <Template9Poster photoSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 10 ? (
                 <Template10Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
+              ) : template.id === 11 ? (
+                <Food1Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : null}
             </div>
             <div className="flex w-full items-center justify-between gap-3 pt-4">

@@ -21,8 +21,10 @@ import {
   Template7EditorPage,
   Template8EditorPage,
   Template9EditorPage,
-  Template10EditorPage
+  Template10EditorPage,
+  template10
 } from '@/components/templates/personal';
+import { food1, Food1EditorPage } from '@/components/templates/food';
 import type { Template } from '@/types/template';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -115,27 +117,20 @@ function App() {
   };
 
   if (editingTemplate?.kind === 'portrait-poster') {
-    if (editingTemplate.id === 0) {
-      return <Template1EditorPage onBack={() => setEditingTemplate(null)} />;
-    } else if (editingTemplate.id === 1) {
-      return <Template2EditorPage onBack={() => setEditingTemplate(null)} />;
-    } else if (editingTemplate.id === 2) {
-      return <Template3EditorPage onBack={() => setEditingTemplate(null)} />;
-    } else if (editingTemplate.id === 3) {
-      return <Template4EditorPage onBack={() => setEditingTemplate(null)} />;
-    } else if (editingTemplate.id === 4) {
-      return <Template5EditorPage onBack={() => setEditingTemplate(null)} />;
-    } else if (editingTemplate.id === 5) {
-      return <Template6EditorPage onBack={() => setEditingTemplate(null)} />;
-    } else if (editingTemplate.id === 6) {
-      return <Template7EditorPage onBack={() => setEditingTemplate(null)} />;
-    } else if (editingTemplate.id === 7) {
-      return <Template8EditorPage onBack={() => setEditingTemplate(null)} />;
-    } else if (editingTemplate.id === 8) {
-      return <Template9EditorPage onBack={() => setEditingTemplate(null)} />;
-    } else if (editingTemplate.id === 10) {
-      return <Template10EditorPage onBack={() => setEditingTemplate(null)} />;
-    }
+    if (editingTemplate.id === 0) return <Template1EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 1) return <Template2EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 2) return <Template3EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 3) return <Template4EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 4) return <Template5EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 5) return <Template6EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 6) return <Template7EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 7) return <Template8EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 8) return <Template9EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 10) return <Template10EditorPage onBack={() => setEditingTemplate(null)} />;
+  }
+
+  if (editingTemplate?.kind === 'food-poster') {
+    if (editingTemplate.id === 11) return <Food1EditorPage onBack={() => setEditingTemplate(null)} />;
   }
 
   return (
