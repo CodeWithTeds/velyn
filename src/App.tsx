@@ -24,7 +24,7 @@ import {
   Template10EditorPage,
   template10
 } from '@/components/templates/personal';
-import { food1, Food1EditorPage } from '@/components/templates/food';
+import { food1, Food1EditorPage, food2, Food2EditorPage } from '@/components/templates/food';
 import type { Template } from '@/types/template';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -131,6 +131,7 @@ function App() {
 
   if (editingTemplate?.kind === 'food-poster') {
     if (editingTemplate.id === 11) return <Food1EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 12) return <Food2EditorPage onBack={() => setEditingTemplate(null)} />;
   }
 
   return (
