@@ -158,7 +158,7 @@ export function Food1Editor({
       />
 
       <EditorCanvas quickActions={quickActions}>
-        <div ref={downloadRef} className={`aspect-[9/16] h-full w-auto max-w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)]' : 'max-h-[760px]'}`}>
+        <div ref={downloadRef} className={`m-auto aspect-[9/16] h-full w-auto max-w-full ${fullscreen ? 'max-h-[calc(100vh-9rem)]' : 'max-h-[760px]'}`}>
           <Food1Poster
             imageSrc={uploadedImage ?? defaultImage}
             imageTransform={imageTransform}
@@ -244,9 +244,9 @@ export function Food1Editor({
 
         <section className="rounded-md border border-slate-200 bg-slate-50 p-4">
           <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Source Image</p>
-          <label className="mt-4 inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-slate-950 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-slate-800">
+          <label className="relative mt-4 inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-slate-950 px-5 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-slate-800">
             Change picture
-            <input type="file" accept="image/*" className="sr-only" onChange={handleImageChange} />
+            <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
           </label>
         </section>
 
