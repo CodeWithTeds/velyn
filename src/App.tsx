@@ -24,7 +24,7 @@ import {
   Template10EditorPage,
   template10
 } from '@/components/templates/personal';
-import { food1, Food1EditorPage, food2, Food2EditorPage, food3, Food3EditorPage, food4, Food4EditorPage } from '@/components/templates/food';
+import { food1, Food1EditorPage, food2, Food2EditorPage, food3, Food3EditorPage, food4, Food4EditorPage, food5, Food5EditorPage } from '@/components/templates/food';
 import type { Template } from '@/types/template';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -134,6 +134,7 @@ function App() {
     if (editingTemplate.id === 12) return <Food2EditorPage onBack={() => setEditingTemplate(null)} />;
     if (editingTemplate.id === 13) return <Food3EditorPage onBack={() => setEditingTemplate(null)} />;
     if (editingTemplate.id === 14) return <Food4EditorPage onBack={() => setEditingTemplate(null)} />;
+    if (editingTemplate.id === 15) return <Food5EditorPage onBack={() => setEditingTemplate(null)} />;
   }
 
   return (

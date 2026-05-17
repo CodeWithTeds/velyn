@@ -19,7 +19,7 @@ import {
   Template9Poster, template9,
   Template10Poster, template10
 } from '@/components/templates/personal';
-import { Food1Poster, food1, Food2Poster, food2, Food3Poster, food3, Food4Poster, food4 } from '@/components/templates/food';
+import { Food1Poster, food1, Food2Poster, food2, Food3Poster, food3, Food4Poster, food4, Food5Poster, food5 } from '@/components/templates/food';
 
 type BusinessTemplateSample = {
   accent: string;
@@ -49,6 +49,7 @@ const foodTemplatesList: Template[] = [
   food2,
   food3,
   food4,
+  food5,
 ];
 
 const foodTemplates: BusinessTemplateSample[] = [
@@ -356,6 +357,8 @@ export function TemplatesSection({ onOpenModal }: TemplatesSectionProps) {
                     <Food3Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
                   ) : template.id === 14 ? (
                     <Food4Poster imageSrc={template.image} compact className="mx-auto max-h-80" />
+                  ) : template.id === 15 ? (
+                    <Food5Poster imageRightSrc={template.image} compact className="mx-auto max-h-80" />
                   ) : null}
                 </div>
               ) : (

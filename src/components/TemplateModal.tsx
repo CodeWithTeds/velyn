@@ -11,7 +11,7 @@ import {
   Template9Poster,
   Template10Poster
 } from '@/components/templates/personal';
-import { Food1Poster, Food2Poster, Food3Poster, Food4Poster } from '@/components/templates/food';
+import { Food1Poster, Food2Poster, Food3Poster, Food4Poster, Food5Poster } from '@/components/templates/food';
 
 type TemplateModalProps = {
   isOpen: boolean;
@@ -83,6 +83,8 @@ export function TemplateModal({ isOpen, onClose, onEditTemplate, template }: Tem
                 <Food3Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : template.id === 14 ? (
                 <Food4Poster imageSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
+              ) : template.id === 15 ? (
+                <Food5Poster imageRightSrc={template.image} className="h-full w-auto max-w-full aspect-[9/16]" />
               ) : null}
             </div>
             <div className="flex w-full items-center justify-between gap-3 pt-4">
